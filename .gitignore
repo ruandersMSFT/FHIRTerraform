@@ -1,0 +1,6 @@
+terraform.tfstate*
+.terraform.lock.hcl
+.tarraform.tfstate.lock.info
+.vs/*
+.terraform/*
+gitignore.*

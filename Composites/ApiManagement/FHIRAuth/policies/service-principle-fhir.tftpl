@@ -1,0 +1,17 @@
+<policies>
+    <inbound>
+        <base />
+        <set-body>@{ 
+            return context.Request.Body.As<String>()+ "&resource=${azure_audience}" ;
+        }</set-body>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
