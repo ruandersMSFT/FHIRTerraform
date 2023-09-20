@@ -19,18 +19,6 @@ module "Network" {
   depends_on = [ azurerm_resource_group.dex_smart ]
 }
 
-module "VirtualMachine" {
-  source = "./Composites/VirtualMachine"
-
-  resource_prefix     = var.resource_prefix
-  subnet_id                = module.Network.subnet_id
-  resource_group_name = var.resource_group_name
-  tags                = var.tags
-
-  depends_on = [ module.Network ]
-}
-
-
 module "azuremonitorprivatelinkscope" {
   source = "./Modules/AMPLS"
 
@@ -56,18 +44,6 @@ module "PrivateDnsZones" {
   depends_on = [ module.Network ]
 }
 
-module "BastionHost" {
-  source = "./Composites/BastionHost"
-
-  resource_prefix     = var.resource_prefix
-  resource_group_name = var.resource_group_name
-  subnet_id           = module.Network.subnet_bastion_id
-
-  tags                = var.tags
-
-  depends_on = [ module.Network ]
-}
-
 locals {
   keyvault_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].keyvault_private_dns_zone_id : null
   keyvault_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
@@ -82,6 +58,7 @@ locals {
   website_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 }
 
+/*
 module "FHIRDeployment" {
   source = "./Composites/FHIRDeployment"
 
@@ -97,3 +74,5 @@ module "FHIRDeployment" {
 
   depends_on = [ module.Network ]
 }
+
+*/
