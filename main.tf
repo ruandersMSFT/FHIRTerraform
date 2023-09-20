@@ -58,7 +58,6 @@ locals {
   website_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 }
 
-/*
 module "FHIRDeployment" {
   source = "./Composites/FHIRDeployment"
 
@@ -74,5 +73,3 @@ module "FHIRDeployment" {
 
   depends_on = [ module.Network ]
 }
-
-*/
