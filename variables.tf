@@ -38,7 +38,6 @@ variable "static_site_name" {
   description = ""
 }
 
-
 variable "redis_cache_capacity" {
   type        = string
   description = ""
@@ -49,7 +48,6 @@ variable "redis_cache_name" {
   type        = string
   description = ""
 }
-
 
 variable "redis_cache_sku" {
   type        = string
@@ -81,17 +79,17 @@ variable "healthcare_fhir_configuration_export_storage_account_name" {
   description = ""
 }
 
-variable "storageaccount_name" {
+variable "storage_DataExport_name" {
   type        = string
   description = ""
 }
 
-variable "storageaccount2_name" {
+variable "storage_ProcessMessage_name" {
   type        = string
   description = ""
 }
 
-variable "storageaccount4_name" {
+variable "storage_DataLakeExport_name" {
   type        = string
   description = ""
 }

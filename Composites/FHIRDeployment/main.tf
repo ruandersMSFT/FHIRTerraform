@@ -1,6 +1,8 @@
 locals {
 }
 
+data "azurerm_client_config" "current" {}
+
 #todo now russell -- Get Secret Permission for data export function app identity
 #todo now russell -- Get Secret Permission for process message function app identity
 #todo now russell -- Key Values from existing vault
@@ -18,49 +20,17 @@ module "KeyVault" {
   tags = var.tags
 }
 
-/*
 module "StaticSite" {
   source = "./../../Modules/StaticSite"
 
   resource_prefix     = var.resource_prefix
   name                = var.static_site_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.static_site_resource_group_name
 
-  subnet_id           = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id = local.staticsite_private_dns_zone_id
+  subnet_id           = var.static_site_private_endpoint_subnet_id
+  private_dns_zone_id = var.static_site_private_dns_zone_id
 
-  tags = local.tags
-}
-
-module "ServicePlan1" {
-  source = "./../../Modules/ServicePlan"
-
-  resource_prefix     = var.resource_prefix
-  name                = "service-appserv"
-  os_type             = "Linux"
-  resource_group_name = var.resource_group_name
-  sku_name            = "EP1"
-  tags                = local.tags
-}
-
-module "ServicePlan2" {
-  source = "./../../Modules/ServicePlan"
-
-  resource_prefix     = var.resource_prefix
-  name                = "service-dataexport"
-  os_type             = "Windows"
-  resource_group_name = var.resource_group_name
-  sku_name            = "EP1"
-}
-
-module "ServicePlan3" {
-  source = "./../../Modules/ServicePlan"
-
-  resource_prefix     = var.resource_prefix
-  name                = "service-processmessage"
-  os_type             = "Windows"
-  resource_group_name = var.resource_group_name
-  sku_name            = "EP1"
+  tags = var.tags
 }
 
 module "RedisCache" {
@@ -69,81 +39,64 @@ module "RedisCache" {
   resource_prefix     = var.resource_prefix
   capacity            = var.redis_cache_capacity
   name                = var.redis_cache_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.redis_cache_resource_group_name
   sku                 = var.redis_cache_sku
-  subnet_id           = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id = local.rediscache_private_dns_zone_id
+  subnet_id           = var.redis_cache_private_endpoint_subnet_id
+  private_dns_zone_id = var.redis_cache_private_dns_zone_id
 
-  tags = local.tags
+  tags = var.tags
+}
+
+
+module "ServicePlanAppServ" {
+  source = "./../../Modules/ServicePlan"
+
+  resource_prefix     = var.resource_prefix
+  name                = var.service_plan_appserv_name
+  os_type             = var.service_plan_appserv_os_type
+  resource_group_name = var.service_plan_appserv_resource_group_name
+  sku_name            = var.service_plan_appserv_sku_name
+  tags                = var.tags
+}
+
+module "ServicePlanDataExport" {
+  source = "./../../Modules/ServicePlan"
+
+  resource_prefix     = var.resource_prefix
+  name                = var.service_plan_dataexport_name
+  os_type             = var.service_plan_dataexport_os_type
+  resource_group_name = var.service_plan_dataexport_resource_group_name
+  sku_name            = var.service_plan_dataexport_sku_name
+  tags                = var.tags
+}
+
+module "ServicePlanProcessMessage" {
+  source = "./../../Modules/ServicePlan"
+
+  resource_prefix     = var.resource_prefix
+  name                = var.service_plan_processmessage_name
+  os_type             = var.service_plan_processmessage_os_type
+  resource_group_name = var.service_plan_processmessage_resource_group_name
+  sku_name            = var.service_plan_processmessage_sku_name
+  tags                = var.tags
 }
 
 module "AzureHealthCareWorkspace" {
-  source = "./../../Modules/Microsoft.HealthcareApis/workspaces"
+  source = "./../../Modules/HealthCareWorkspace"
 
   resource_prefix     = var.resource_prefix
   name                = var.healthcare_workspace_name
-  resource_group_name = var.resource_group_name
-  subnet_id           = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id = local.healthcareApis_private_dns_zone_id
-  
-  tags                = local.tags
+  resource_group_name = var.healthcare_workspace_resource_group_name
+
+  subnet_id           = var.healthcare_workspace_private_endpoint_subnet_id
+  private_dns_zone_id = var.healthcare_workspace_private_dns_zone_id
+
+  tags                = var.tags
 }
 
-module "AzureHealthCareFHIR" {
-  source = "./../../Modules/Microsoft.HealthcareApis/workspaces/FHIRService"
-
-  authentication_audience                   = var.healthcare_fhir_authentication_audience
-  authentication_authority                  = "${var.healthcare_fhir_authentication_authority}/${data.azurerm_client_config.current.tenant_id}"
-  configuration_export_storage_account_name = var.healthcare_fhir_configuration_export_storage_account_name
-  name                                      = var.healthcare_fhir_name
-  resource_prefix                           = var.resource_prefix
-  resource_group_name                       = var.resource_group_name
-  workspace_name                            = module.AzureHealthCareWorkspace.name
-  tags                                      = local.tags
-
-  depends_on = [module.AzureHealthCareWorkspace]
-}
-
-module "StorageAccount" {
-  source = "./../../Modules/Microsoft.Storage/storageAccounts"
-
-  access_tier              = "Hot"
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  assign_identity          = false
-  resource_prefix          = var.resource_prefix
-  name                     = var.storageaccount_name
-  resource_group_name      = var.resource_group_name
-  subnet_id                = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id      = local.storageblob_private_dns_zone_id
-
-  tags = {
-    "hidden-related:/providers/Microsoft.Web/sites/${var.windows_function_app_dataexport_name}" = "empty"
-  }
-}
-
-module "StorageAccount2" {
-  source = "./../../Modules/Microsoft.Storage/storageAccounts"
-
-  access_tier              = "Hot"
-  account_kind             = "StorageV2"
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  assign_identity          = false
-  resource_prefix          = var.resource_prefix
-  name                     = var.storageaccount2_name
-  resource_group_name      = var.resource_group_name
-  subnet_id                = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id      = local.storageblob_private_dns_zone_id
-
-  tags = {
-    "hidden-related:/providers/Microsoft.Web/sites/${var.windows_function_app_processmessage_name}" = "empty"
-  }
-}
-
-module "StorageAccount3" {
-  source = "./../../Modules/Microsoft.Storage/storageAccounts"
+#todo variable should reference blob
+module "StorageAccountFHIRExport" {
+  source = "./../../Modules/StorageAccount"
 
   access_tier              = "Hot"
   account_kind             = "StorageV2"
@@ -152,15 +105,30 @@ module "StorageAccount3" {
   assign_identity          = false
   resource_prefix          = var.resource_prefix
   name                     = var.healthcare_fhir_configuration_export_storage_account_name
-  resource_group_name      = var.resource_group_name
-  subnet_id                = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id      = local.storageblob_private_dns_zone_id
+  resource_group_name      = var.storage_FHIRExport_resource_group_name
+  subnet_id                = var.storage_FHIRExport_private_endpoint_subnet_id
+  private_dns_zone_id      = var.storage_FHIRExport_blob_private_dns_zone_id
 
-  tags                     = local.tags
+  tags                     = var.tags
 }
 
-module "StorageAccount4" {
-  source = "./../../Modules/Microsoft.Storage/storageAccounts"
+module "AzureHealthCareFHIR" {
+  source = "./../../Modules/HealthCareFHIR"
+
+  authentication_audience                   = var.healthcare_fhir_authentication_audience
+  authentication_authority                  = "${var.healthcare_fhir_authentication_authority}/${data.azurerm_client_config.current.tenant_id}"
+  configuration_export_storage_account_name = module.StorageAccountFHIRExport.name
+  name                                      = var.healthcare_fhir_name
+  resource_prefix                           = var.resource_prefix
+  resource_group_name                       = var.healthcare_fhir_resource_group_name
+  workspace_name                            = module.AzureHealthCareWorkspace.name
+  tags                                      = var.tags
+
+  depends_on = [module.AzureHealthCareWorkspace]
+}
+
+module "StorageAccountDataExport" {
+  source = "./../../Modules/StorageAccount"
 
   access_tier              = "Hot"
   account_kind             = "StorageV2"
@@ -168,12 +136,56 @@ module "StorageAccount4" {
   account_replication_type = "LRS"
   assign_identity          = false
   resource_prefix          = var.resource_prefix
-  name                     = var.storageaccount4_name
-  resource_group_name      = var.resource_group_name
-  subnet_id                = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id      = local.storageblob_private_dns_zone_id
+  name                     = var.storage_DataExport_name
+  resource_group_name      = var.storage_DataExport_resource_group_name
+  subnet_id                = var.storage_DataExport_private_endpoint_subnet_id
+  private_dns_zone_id      = var.storage_DataExport_blob_private_dns_zone_id
 
-  tags                     = local.tags
+tags = {}
+/*
+  tags = {
+    "hidden-related:/providers/Microsoft.Web/sites/${var.windows_function_app_dataexport_name}" = "empty"
+  }
+  */
+}
+
+module "StorageAccountProcessMessage" {
+  source = "./../../Modules/StorageAccount"
+
+  access_tier              = "Hot"
+  account_kind             = "StorageV2"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  assign_identity          = false
+  resource_prefix          = var.resource_prefix
+  name                     = var.storage_ProcessMessage_name
+  resource_group_name      = var.storage_ProcessMessage_resource_group_name
+  subnet_id                = var.storage_ProcessMessage_private_endpoint_subnet_id
+  private_dns_zone_id      = var.storage_ProcessMessage_blob_private_dns_zone_id
+
+tags = {}
+/*
+  tags = {
+    "hidden-related:/providers/Microsoft.Web/sites/${var.windows_function_app_processmessage_name}" = "empty"
+  }
+  */
+}
+
+module "StorageAccountDataLakeExport" {
+  source = "./../../Modules/StorageAccount"
+
+  access_tier              = "Hot"
+  account_kind             = "StorageV2"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  assign_identity          = false
+  resource_prefix          = var.resource_prefix
+  name                     = var.storage_DataLakeExport_name
+  resource_group_name      = var.storage_DataLakeExport_resource_group_name
+  subnet_id                = var.storage_DataLakeExport_private_endpoint_subnet_id
+  private_dns_zone_id      = var.storage_DataLakeExport_blob_private_dns_zone_id
+
+  tags                     = var.tags
 }
 
 module "ServiceBusNamespace" {
@@ -181,12 +193,12 @@ module "ServiceBusNamespace" {
 
   resource_prefix     = var.resource_prefix
   name                = var.servicebusnamespace_name
-  resource_group_name = var.resource_group_name
-  sku                 = "Premium"
+  resource_group_name = var.servicebusnamespace_resource_group_name
+  sku                 = var.servicebusnamespace_sku
   capacity            = var.servicebusnamespace_capacity
 
-  subnet_id           = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id = local.servicebus_private_dns_zone_id
+  subnet_id           = var.servicebusnamespace_private_endpoint_subnet_id
+  private_dns_zone_id = var.servicebusnamespace_private_dns_zone_id
 }
 
 resource "azurerm_servicebus_queue" "fhireventqueue" {
@@ -199,26 +211,27 @@ resource "azurerm_servicebus_queue" "fhireventqueue" {
 module "LogAnalytics" {
   source = "./../../Modules/LogAnalytics"
 
-  ampls_scope_name        = module.azuremonitorprivatelinkscope.name
+  ampls_scope_name        = var.ampls_scope_name
   sku                     = var.log_analytics_sku
   retention_in_days       = var.log_analytics_retention_in_days
   name                    = var.log_analytics_name
-  resource_group_name     = var.resource_group_name
+  resource_group_name     = var.log_analytics_resource_group_name
   resource_prefix         = var.resource_prefix
   
-  tags                    = local.tags
+  tags                    = var.tags
 }
+
 
 module "ApplicationInsights" {
   source = "./../../Modules/ApplicationInsights"
 
-  ampls_scope_name        = module.azuremonitorprivatelinkscope.name
-  application_type        = "web"
+  ampls_scope_name        = var.ampls_scope_name
+  application_type        = var.application_insights_application_type
   name                    = var.application_insights_name
   resource_prefix         = var.resource_prefix
-  resource_group_name     = var.resource_group_name
+  resource_group_name     = var.application_insights_resource_group_name
   sampling_percentage     = var.application_insights_sampling_percentage
-  tags                    = local.tags
+  tags                    = var.tags
   workspace_id            = module.LogAnalytics.id
 }
 
@@ -227,10 +240,12 @@ module "EventGridSystemTopic" {
 
   name                   = var.event_grid_system_topic_name
   resource_prefix        = var.resource_prefix
-  resource_group_name    = var.resource_group_name
+  resource_group_name    = var.event_grid_system_topic_resource_group_name
   source_arm_resource_id = module.AzureHealthCareWorkspace.id
   topic_type             = "Microsoft.HealthcareApis.Workspaces"
 }
+
+/*
 
 module "APIManagement" {
   source = "./Composites/ApiManagement"
@@ -269,7 +284,7 @@ module "AppConfiguration" {
     "AuthTenantId"                          = data.azurerm_client_config.current.tenant_id
     "BaseFhirUrl"                           = "https://${module.APIManagement.hostname}"
     "Export:DatalakeBlobContainer"          = "fhirdatadestination" # todo now russell container needs to get created
-    "Export:DatalakeStorageAccount"         = var.storageaccount4_name
+    "Export:DatalakeStorageAccount"         = var.StorageAccountDataLakeExport_name
     "Export:FlattenExport"                  = "False"
     "Export:UnbundleExport"                 = "False"
     "FunctionProcessMessage:SkipValidation" = "True"
@@ -405,9 +420,9 @@ module "LinuxFunctionApp" {
     ENABLE_ORYX_BUILD                           = "true"
     SCM_DO_BUILD_DURING_DEPLOYMENT              = "false"
   }
-  service_plan_id                        = module.ServicePlan1.id
-  storage_account_access_key             = module.StorageAccount3.primary_access_key
-  storage_account_name                   = module.StorageAccount3.name
+  service_plan_id                        = module.ServicePlanAppServ.id
+  storage_account_access_key             = module.StorageAccountFHIRExport.primary_access_key
+  storage_account_name                   = module.StorageAccountFHIRExport.name
   allowed_origins                        = [module.StaticSite.default_host_url]
   application_insights_connection_string = module.ApplicationInsights.connection_string
   application_insights_key               = module.ApplicationInsights.instrumentation_key
@@ -436,15 +451,15 @@ module "LinuxFunctionApp2" {
     AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING = module.ApplicationInsights.connection_string
     AZURE_ApiManagementHostName                 = module.APIManagement.hostname
     AZURE_Debug                                 = "true"
-    AZURE_ExportStorageAccountUrl               = module.StorageAccount3.primary_blob_endpoint
+    AZURE_ExportStorageAccountUrl               = module.StorageAccountFHIRExport.primary_blob_endpoint
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
     AZURE_TenantId                              = data.azurerm_client_config.current.tenant_id
     ENABLE_ORYX_BUILD                           = "true"
     SCM_DO_BUILD_DURING_DEPLOYMENT              = "false"
   }
-  service_plan_id                        = module.ServicePlan1.id
-  storage_account_access_key             = module.StorageAccount3.primary_access_key
-  storage_account_name                   = module.StorageAccount3.name
+  service_plan_id                        = module.ServicePlanAppServ.id
+  storage_account_access_key             = module.StorageAccountFHIRExport.primary_access_key
+  storage_account_name                   = module.StorageAccountFHIRExport.name
   application_insights_connection_string = module.ApplicationInsights.connection_string
   application_insights_key               = module.ApplicationInsights.instrumentation_key
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
@@ -461,9 +476,9 @@ module "DataExportFunctionApp" {
   name                                   = var.windows_function_app_dataexport_name
   resource_prefix                        = var.resource_prefix
   resource_group_name                    = var.resource_group_name
-  service_plan_id                        = module.ServicePlan2.id
-  storage_account_access_key             = module.StorageAccount.primary_access_key
-  storage_account_name                   = module.StorageAccount.name
+  service_plan_id                        = module.ServicePlanDataExport.id
+  storage_account_access_key             = module.StorageAccountDataExport.primary_access_key
+  storage_account_name                   = module.StorageAccountDataExport.name
   application_insights_connection_string = module.ApplicationInsights.connection_string
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
@@ -482,9 +497,9 @@ module "ProcessMessageFunctionApp" {
   name                                   = var.windows_function_app_processmessage_name
   resource_prefix                        = var.resource_prefix
   resource_group_name                    = var.resource_group_name
-  service_plan_id                        = module.ServicePlan3.id
-  storage_account_access_key             = module.StorageAccount2.primary_access_key
-  storage_account_name                   = module.StorageAccount2.name
+  service_plan_id                        = module.ServicePlanProcessMessage.id
+  storage_account_access_key             = module.StorageAccountProcessMessage.primary_access_key
+  storage_account_name                   = module.StorageAccountProcessMessage.name
   application_insights_connection_string = module.ApplicationInsights.connection_string
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 

@@ -1,7 +1,7 @@
 resource_group_name     = "cdc-dex-smart-terraform-rg"
 resource_group_location = "eastus2"
 
-deploy_private_endpoints = false
+deploy_private_endpoints = true
 
 resource_prefix = "cdc-dex-smart-"
 
@@ -50,9 +50,9 @@ servicebusnamespace_capacity = 1
 
 static_site_name = "dev-contextswa"
 
-storageaccount_name  = "desa2"
-storageaccount2_name = "pmsa2"
-storageaccount4_name = "datalakeeast2"
+storage_DataExport_name  = "desa2"
+storage_ProcessMessage_name = "pmsa2"
+storage_DataLakeExport_name = "datalakeeast2"
 
 windows_function_app_dataexport_name     = "dataexport"
 windows_function_app_processmessage_name = "processmessage"

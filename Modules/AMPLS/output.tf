@@ -7,6 +7,6 @@ output "id" {
 }
 
 output "name" {
-  value = var.name
+  value = "${var.resource_prefix}${var.name}"
 }
 

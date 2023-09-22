@@ -163,8 +163,8 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "this" {
 */
 
 module "PrivateEndpoint" {
-  count = local.deploy_private_endpoint ? 1 : 0
-  source = "../../PrivateEndpoint"
+  count = 1 # local.deploy_private_endpoint ? 1 : 0
+  source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
   name = var.name # todo now russell

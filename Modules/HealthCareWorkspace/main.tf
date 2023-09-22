@@ -21,15 +21,15 @@ resource "azurerm_healthcare_workspace" "HealthCareWorkspace" {
 }
 
 module "PrivateEndpoint" {
-  count = local.deploy_private_endpoint ? 1 : 0
-  source = "../../PrivateEndpoint"
+  count = 1 #local.deploy_private_endpoint ? 1 : 0
+  source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
-  name                = "health" # todo now russell
+  name                = "health"
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name
   resource_id         = azurerm_healthcare_workspace.HealthCareWorkspace.id
   subnet_id           = var.subnet_id
-  subresource_names   = ["heathcareworkspace"] # todo now russell, this may not be correct for the workspace
+  subresource_names   = ["heathcareworkspace"] 
   tags                = var.tags
 }

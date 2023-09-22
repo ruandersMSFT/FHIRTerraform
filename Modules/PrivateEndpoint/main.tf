@@ -22,12 +22,12 @@ resource "azurerm_private_endpoint" "this" {
   private_service_connection {
     name                           = "${var.name}-connection"
     private_connection_resource_id = var.resource_id
-    is_manual_connection           = coalesce(var.approval_required, false) # todo now russell
+    is_manual_connection           = coalesce(var.approval_required, false)
     subresource_names              = var.subresource_names
   }
 
   private_dns_zone_group {
-    name                 = "example-dns-zone-group" # todo now russell
+    name                 = "example-dns-zone-group" 
     private_dns_zone_ids = [var.private_dns_zone_id]
   }
 
