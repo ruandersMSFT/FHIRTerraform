@@ -21,7 +21,7 @@ resource "azurerm_healthcare_workspace" "HealthCareWorkspace" {
 }
 
 module "PrivateEndpoint" {
-  count = 1 #local.deploy_private_endpoint ? 1 : 0
+  count = local.deploy_private_endpoint ? 1 : 0
   source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)

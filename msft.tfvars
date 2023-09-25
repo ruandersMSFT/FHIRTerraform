@@ -1,7 +1,7 @@
 resource_group_name     = "cdc-dex-smart-terraform-rg"
 resource_group_location = "eastus2"
 
-deploy_private_endpoints = true
+deploy_private_endpoints = false
 
 resource_prefix = "cdc-dex-smart-"
 

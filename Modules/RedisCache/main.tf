@@ -73,7 +73,7 @@ resource "azurerm_redis_firewall_rule" "this" {
 */
 
 module "PrivateEndpoint" {
-  count = 1 #local.deploy_private_endpoint ? 1 : 0
+  count = local.deploy_private_endpoint ? 1 : 0
   source = "../PrivateEndpoint"
 
   name                = "redis" # todo now russell
