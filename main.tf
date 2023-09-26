@@ -65,6 +65,9 @@ locals {
   healthcareApis_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].healthcareApis_private_dns_zone_id : null
   healthcareApis_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
 
+  linux_function_app_export_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
+  linux_function_app_export_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
+
   process_message_function_app_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
   process_message_function_app_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 
@@ -79,6 +82,9 @@ locals {
 
   eventgridtopic_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].eventgridtopic_private_dns_zone_id : null
   website_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
+
+  windows_function_app_dataexport_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
+  windows_function_app_dataexport_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 }
 
 #todo move resource_group_name to input variables separated by type
@@ -95,6 +101,12 @@ module "FHIRDeployment" {
 
   ampls_scope_name = module.azuremonitorprivatelinkscope.name
 
+  apimanagement_name = var.apimanagement_name
+  apimanagement_resource_group_name = var.resource_group_name
+  apimanagement_publisher_email = var.apimanagement_publisher_email
+  apimanagement_publisher_name = var.apimanagement_publisher_name
+  apimanagement_sku_name = var.apimanagement_sku_name
+
   app_configuration_name                       = var.app_configuration_name
   app_configuration_resource_group_name        = var.resource_group_name
   app_configuration_sku                        = var.app_configuration_sku
@@ -105,6 +117,9 @@ module "FHIRDeployment" {
   application_insights_name                = var.application_insights_name
   application_insights_resource_group_name = var.resource_group_name
   application_insights_sampling_percentage = var.application_insights_sampling_percentage
+
+  azure_app_client_id = var.azure_app_client_id
+  azure_audience = var.azure_audience
 
   event_grid_system_topic_name                = var.event_grid_system_topic_name
   event_grid_system_topic_resource_group_name = var.resource_group_name
@@ -125,6 +140,11 @@ module "FHIRDeployment" {
   keyvault_sku_name                   = var.keyvault_sku_name
   keyvault_private_dns_zone_id        = local.keyvault_private_dns_zone_id
   keyvault_private_endpoint_subnet_id = local.keyvault_private_endpoint_subnet_id
+
+  linux_function_app_export_name = var.linux_function_app_export_name
+  linux_function_app_export_resource_group_name = var.resource_group_name
+  linux_function_app_export_private_endpoint_subnet_id = local.linux_function_app_export_private_endpoint_subnet_id
+  linux_function_app_export_private_dns_zone_id = local.linux_function_app_export_private_dns_zone_id
 
   log_analytics_name                = var.log_analytics_name
   log_analytics_resource_group_name = var.resource_group_name
@@ -188,6 +208,11 @@ module "FHIRDeployment" {
   storage_ProcessMessage_name                       = var.storage_ProcessMessage_name
   storage_ProcessMessage_private_endpoint_subnet_id = local.storage_ProcessMessage_private_endpoint_subnet_id
   storage_ProcessMessage_resource_group_name        = var.resource_group_name
+
+  windows_function_app_dataexport_name = var.windows_function_app_dataexport_name
+  windows_function_app_dataexport_resource_group_name = var.resource_group_name
+  windows_function_app_dataexport_private_endpoint_subnet_id = local.windows_function_app_dataexport_private_endpoint_subnet_id
+  windows_function_app_dataexport_private_dns_zone_id = local.windows_function_app_dataexport_private_dns_zone_id
 
   tags = var.tags
 

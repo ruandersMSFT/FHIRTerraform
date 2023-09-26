@@ -266,7 +266,6 @@ module "ProcessMessageFunctionApp" {
   private_dns_zone_id = var.process_message_function_app_private_dns_zone_id
 }
 
-
 module "AADFunctionApp" {
   source = "./../../Modules/FunctionAppLinux"
 
@@ -280,7 +279,7 @@ module "AADFunctionApp" {
     AZURE_Audience                              = var.azure_audience
     AZURE_BackendServiceKeyVaultStore           = module.KeyVault.name
     AZURE_CacheConnectionString                 = module.RedisCache.primary_connection_string
-    AZURE_ContextAppClientId                    = var.azure_contextappclientid
+    azure_app_client_id                    = var.azure_app_client_id
     AZURE_Debug                                 = "true"
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
     AZURE_TenantId                              = data.azurerm_client_config.current.tenant_id
@@ -307,15 +306,12 @@ module "AADFunctionApp" {
   private_dns_zone_id = var.aad_function_app_private_dns_zone_id
 }
 
-/*
-
-
-module "LinuxFunctionApp2" {
+module "ExportFunctionApp" {
   source = "./../../Modules/FunctionAppLinux"
 
-  name                = var.linux_function_app_2_name
+  name                = var.linux_function_app_export_name
   resource_prefix     = var.resource_prefix
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.linux_function_app_export_resource_group_name
   app_settings = {
     AZURE_APPINSIGHTS_INSTRUMENTATIONKEY        = module.ApplicationInsights.instrumentation_key
     AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING = module.ApplicationInsights.connection_string
@@ -334,10 +330,10 @@ module "LinuxFunctionApp2" {
   application_insights_key               = module.ApplicationInsights.instrumentation_key
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = local.tags
+  tags = var.tags
 
-  subnet_id           = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id = local.website_private_dns_zone_id
+  subnet_id           = var.linux_function_app_export_private_endpoint_subnet_id
+  private_dns_zone_id = var.linux_function_app_export_private_dns_zone_id
 }
 
 module "DataExportFunctionApp" {
@@ -345,7 +341,7 @@ module "DataExportFunctionApp" {
 
   name                                   = var.windows_function_app_dataexport_name
   resource_prefix                        = var.resource_prefix
-  resource_group_name                    = var.resource_group_name
+  resource_group_name                    = var.windows_function_app_dataexport_resource_group_name
   service_plan_id                        = module.ServicePlanDataExport.id
   storage_account_access_key             = module.StorageAccountDataExport.primary_access_key
   storage_account_name                   = module.StorageAccountDataExport.name
@@ -357,35 +353,8 @@ module "DataExportFunctionApp" {
     "hidden-related:/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourceGroups/cdc-dex-smart-dev-rg/providers/Microsoft.Web/serverFarms/${var.windows_function_app_dataexport_name}" = "empty"
   }
 
-  subnet_id           = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  private_dns_zone_id = local.website_private_dns_zone_id
-}
-
-/*
-resource "azurerm_monitor_smart_detector_alert_rule" "res-68" {
-  description         = "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls."
-  detector_type       = "FailureAnomaliesDetector"
-  frequency           = "PT1M"
-  name                = "Failure Anomalies - cdcdexsmartdev-appins"
-  resource_group_name = var.resource_group_name
-  scope_resource_ids  = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/cdc-dex-smart-dev-rg/providers/microsoft.insights/components/cdcdexsmartdev-appins"]
-  severity            = "Sev3"
-  action_group {
-    ids = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/default-applicationinsights-eastus/providers/microsoft.insights/actionGroups/application insights smart detection"]
-  }
-}
-
-resource "azurerm_monitor_smart_detector_alert_rule" "res-69" {
-  description         = "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls."
-  detector_type       = "FailureAnomaliesDetector"
-  frequency           = "PT1M"
-  name                = "Failure Anomalies - fhir-service-SMART-ai"
-  resource_group_name = var.resource_group_name
-  scope_resource_ids  = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/cdc-dex-smart-dev-rg/providers/microsoft.insights/components/fhir-service-smart-ai"]
-  severity            = "Sev3"
-  action_group {
-    ids = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/default-applicationinsights-eastus/providers/microsoft.insights/actionGroups/application insights smart detection"]
-  }
+  subnet_id           = var.windows_function_app_dataexport_private_endpoint_subnet_id
+  private_dns_zone_id = var.windows_function_app_dataexport_private_dns_zone_id
 }
 
 module "APIManagement" {
@@ -395,7 +364,7 @@ module "APIManagement" {
   publisher_email              = var.apimanagement_publisher_email
   publisher_name               = var.apimanagement_publisher_name
   resource_prefix              = var.resource_prefix
-  resource_group_name          = var.resource_group_name
+  resource_group_name          = var.apimanagement_resource_group_name
   sku_name                     = var.apimanagement_sku_name
   fhir_service_url             = module.AzureHealthCareFHIR.FhirServerUrl
   static_site_hostname         = module.StaticSite.default_host_name
@@ -403,10 +372,10 @@ module "APIManagement" {
   azure_audience               = var.azure_audience
   process_message_function_url = "${module.ProcessMessageFunctionApp.default_hosturl}/api/ProcessMessage?code=${module.ProcessMessageFunctionApp.default_function_key}&amp;clientId=default"
 
+  #todo now russell, define
   virtual_network_type = "External"
-  subnet_id            = module.Network.subnet2_id
+  subnet_id            = var.windows_function_app_dataexport_private_endpoint_subnet_id
 }
-
 
 module "AppConfiguration" {
   source = "./../../Modules/AppConfiguration"
@@ -427,7 +396,7 @@ module "AppConfiguration" {
     "AuthTenantId"                          = data.azurerm_client_config.current.tenant_id
     "BaseFhirUrl"                           = "https://${module.APIManagement.hostname}"
     "Export:DatalakeBlobContainer"          = "fhirdatadestination" # todo now russell container needs to get created
-    "Export:DatalakeStorageAccount"         = var.StorageAccountDataLakeExport_name
+    "Export:DatalakeStorageAccount"         = var.storage_DataLakeExport_name
     "Export:FlattenExport"                  = "False"
     "Export:UnbundleExport"                 = "False"
     "FunctionProcessMessage:SkipValidation" = "True"
@@ -441,8 +410,8 @@ resource "azurerm_role_assignment" "appconf_dataowner" {
 }
 
 data "azurerm_key_vault" "existing" {
-  name                = "${var.resource_prefix}${var.keyvault_name}"
-  resource_group_name = var.resource_group_name
+  name                = module.KeyVault.name
+  resource_group_name = module.KeyVault.resource_group_name
 }
 
 data "azurerm_key_vault_secret" "ClientId" {
@@ -542,5 +511,52 @@ resource "azurerm_app_configuration_key" "FhirServiceBusConnectionString" {
   ]
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+resource "azurerm_monitor_smart_detector_alert_rule" "res-68" {
+  description         = "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls."
+  detector_type       = "FailureAnomaliesDetector"
+  frequency           = "PT1M"
+  name                = "Failure Anomalies - cdcdexsmartdev-appins"
+  resource_group_name = var.resource_group_name
+  scope_resource_ids  = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/cdc-dex-smart-dev-rg/providers/microsoft.insights/components/cdcdexsmartdev-appins"]
+  severity            = "Sev3"
+  action_group {
+    ids = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/default-applicationinsights-eastus/providers/microsoft.insights/actionGroups/application insights smart detection"]
+  }
+}
+
+resource "azurerm_monitor_smart_detector_alert_rule" "res-69" {
+  description         = "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls."
+  detector_type       = "FailureAnomaliesDetector"
+  frequency           = "PT1M"
+  name                = "Failure Anomalies - fhir-service-SMART-ai"
+  resource_group_name = var.resource_group_name
+  scope_resource_ids  = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/cdc-dex-smart-dev-rg/providers/microsoft.insights/components/fhir-service-smart-ai"]
+  severity            = "Sev3"
+  action_group {
+    ids = ["/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourcegroups/default-applicationinsights-eastus/providers/microsoft.insights/actionGroups/application insights smart detection"]
+  }
+}
 
 */

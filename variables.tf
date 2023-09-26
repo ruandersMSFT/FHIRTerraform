@@ -184,12 +184,12 @@ variable "azure_audience" {
   description = ""
 }
 
-variable "azure_contextappclientid" {
+variable "azure_app_client_id" {
   type        = string
   description = ""
 }
 
-variable "linux_function_app_2_name" {
+variable "linux_function_app_export_name" {
   type        = string
   description = ""
 }

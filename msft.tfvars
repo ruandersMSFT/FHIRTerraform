@@ -8,7 +8,7 @@ resource_prefix = "cdc-dex-smart-"
 aad_function_app_name = "aad-func"
 
 azure_audience           = "https://cdc-dex-smart-dev.microsoft.onmicrosoft.com"
-azure_contextappclientid = "4d4b616c-a6f4-450b-8048-7482d7dbca49"
+azure_app_client_id = "4d4b616c-a6f4-450b-8048-7482d7dbca49"
 
 azure_monitor_private_link_scope_name = "AMPLS"
 
@@ -28,7 +28,7 @@ event_grid_system_topic_name = "fhirresourcecreatedevent"
 keyvault_name     = "tf-backkv"
 keyvault_sku_name = "standard"
 
-linux_function_app_2_name = "exp-func"
+linux_function_app_export_name = "exp-func"
 
 log_analytics_name              = "loganalytics"
 log_analytics_retention_in_days = 30

@@ -29,6 +29,29 @@ variable "ampls_scope_name" {
   description = ""
 }
 
+variable "apimanagement_name" {
+  type        = string
+  description = ""
+}
+variable "apimanagement_resource_group_name" {
+  type        = string
+  description = ""
+}
+variable "apimanagement_publisher_email" {
+  type        = string
+  description = ""
+}
+
+variable "apimanagement_publisher_name" {
+  type        = string
+  description = ""
+}
+
+variable "apimanagement_sku_name" {
+  type        = string
+  description = ""
+}
+
 variable "app_configuration_name" {
   type        = string
   description = ""
@@ -69,6 +92,16 @@ variable "application_insights_resource_group_name" {
 }
 
 variable "application_insights_sampling_percentage" {
+  type        = string
+  description = ""
+}
+
+variable "azure_app_client_id" {
+  type        = string
+  description = ""
+}
+
+variable "azure_audience" {
   type        = string
   description = ""
 }
@@ -124,6 +157,26 @@ variable "healthcare_fhir_name" {
 }
 
 variable "healthcare_fhir_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "linux_function_app_export_name" {
+  type        = string
+  description = ""
+}
+
+variable "linux_function_app_export_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "linux_function_app_export_private_endpoint_subnet_id" {
+  type        = string
+  description = ""
+}
+
+variable "linux_function_app_export_private_dns_zone_id" {
   type        = string
   description = ""
 }
@@ -410,6 +463,25 @@ variable "service_plan_processmessage_sku_name" {
   description = ""
 }
 
+variable "windows_function_app_dataexport_name" {
+  type        = string
+  description = ""
+}
+
+variable "windows_function_app_dataexport_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "windows_function_app_dataexport_private_endpoint_subnet_id" {
+  type        = string
+  description = ""
+}
+
+variable "windows_function_app_dataexport_private_dns_zone_id" {
+  type        = string
+  description = ""
+}
 
 variable "tags" {
   type        = map(string)
