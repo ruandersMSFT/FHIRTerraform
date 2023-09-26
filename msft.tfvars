@@ -5,6 +5,8 @@ deploy_private_endpoints = false
 
 resource_prefix = "cdc-dex-smart-"
 
+aad_function_app_name = "aad-func"
+
 azure_audience           = "https://cdc-dex-smart-dev.microsoft.onmicrosoft.com"
 azure_contextappclientid = "4d4b616c-a6f4-450b-8048-7482d7dbca49"
 
@@ -15,7 +17,8 @@ apimanagement_publisher_email = "mislentz@microsoft.com"
 apimanagement_publisher_name  = "Michael Slentz"
 apimanagement_sku_name        = "Premium_1"
 
-appconfiguration_name = "appconfig"
+app_configuration_name = "appconfig"
+app_configuration_sku  = "standard"
 
 application_insights_name                = "appinsights"
 application_insights_sampling_percentage = 0
@@ -25,7 +28,6 @@ event_grid_system_topic_name = "fhirresourcecreatedevent"
 keyvault_name     = "tf-backkv"
 keyvault_sku_name = "standard"
 
-linux_fuction_app_name    = "aad-func"
 linux_function_app_2_name = "exp-func"
 
 log_analytics_name              = "loganalytics"
@@ -41,6 +43,8 @@ healthcare_fhir_configuration_export_storage_account_name = "funcsa2" # todo now
 
 network_name = "network"
 
+process_message_function_app_name = "processmessage"
+
 redis_cache_name     = "apim-cache"
 redis_cache_sku      = "Basic"
 redis_cache_capacity = 0
@@ -50,13 +54,12 @@ servicebusnamespace_capacity = 1
 
 static_site_name = "dev-contextswa"
 
-storage_DataExport_name  = "desa2"
+storage_DataExport_name     = "desa2"
 storage_ProcessMessage_name = "pmsa2"
 storage_DataLakeExport_name = "datalakeeast2"
 
 windows_function_app_dataexport_name     = "dataexport"
-windows_function_app_processmessage_name = "processmessage"
 
 tags = {
-  "a": "1"  
+  "a" : "1"
 }

@@ -4,12 +4,56 @@ variable "resource_prefix" {
   default = null
 }
 
+variable "aad_function_app_name" {
+  type        = string
+  description = ""
+}
+
+variable "aad_function_app_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "aad_function_app_private_endpoint_subnet_id" {
+  type        = string
+  description = ""
+}
+
+variable "aad_function_app_private_dns_zone_id" {
+  type        = string
+  description = ""
+}
+
 variable "ampls_scope_name" {
   type        = string
   description = ""
 }
 
+variable "app_configuration_name" {
+  type        = string
+  description = ""
+}
+
+variable "app_configuration_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "app_configuration_private_endpoint_subnet_id" {
+  type        = string
+  description = ""
+}
+variable "app_configuration_private_dns_zone_id" {
+  type        = string
+  description = ""
+}
+
 variable "application_insights_application_type" {
+  type        = string
+  description = ""
+}
+
+variable "app_configuration_sku" {
   type        = string
   description = ""
 }
@@ -129,6 +173,26 @@ variable "keyvault_private_endpoint_subnet_id" {
   type        = string
   description = ""
   default = null
+}
+
+variable "process_message_function_app_name" {
+  type        = string
+  description = ""
+}
+
+variable "process_message_function_app_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "process_message_function_app_private_endpoint_subnet_id" {
+  type        = string
+  description = ""
+}
+
+variable "process_message_function_app_private_dns_zone_id" {
+  type        = string
+  description = ""
 }
 
 variable "servicebusnamespace_capacity" {

@@ -18,6 +18,21 @@ variable "resource_prefix" {
   description = ""
 }
 
+variable "aad_function_app_name" {
+  type        = string
+  description = ""
+}
+
+variable "app_configuration_name" {
+  type        = string
+  description = ""
+}
+
+variable "app_configuration_sku" {
+  type        = string
+  description = ""
+}
+
 variable "network_name" {
   type        = string
   description = ""
@@ -109,11 +124,6 @@ variable "windows_function_app_dataexport_name" {
   description = ""
 }
 
-variable "windows_function_app_processmessage_name" {
-  type        = string
-  description = ""
-}
-
 variable "log_analytics_sku" {
   type        = string
   description = ""
@@ -174,17 +184,7 @@ variable "azure_audience" {
   description = ""
 }
 
-variable "appconfiguration_name" {
-  type        = string
-  description = ""
-}
-
 variable "azure_contextappclientid" {
-  type        = string
-  description = ""
-}
-
-variable "linux_fuction_app_name" {
   type        = string
   description = ""
 }
@@ -194,8 +194,13 @@ variable "linux_function_app_2_name" {
   description = ""
 }
 
+variable "process_message_function_app_name" {
+  type        = string
+  description = ""
+}
+
 variable "tags" {
   type        = map(string)
-  description = "" 
-  default = {}
+  description = ""
+  default     = {}
 }
