@@ -7,7 +7,7 @@ resource_prefix = "cdc-dex-smart-"
 
 aad_function_app_name = "aad-func"
 
-azure_audience           = "https://cdc-dex-smart-dev.microsoft.onmicrosoft.com"
+azure_audience      = "https://cdc-dex-smart-dev.microsoft.onmicrosoft.com"
 azure_app_client_id = "4d4b616c-a6f4-450b-8048-7482d7dbca49"
 
 azure_monitor_private_link_scope_name = "AMPLS"
@@ -58,7 +58,7 @@ storage_DataExport_name     = "desa2"
 storage_ProcessMessage_name = "pmsa2"
 storage_DataLakeExport_name = "datalakeeast2"
 
-windows_function_app_dataexport_name     = "dataexport"
+windows_function_app_dataexport_name = "dataexport"
 
 tags = {
   "a" : "1"

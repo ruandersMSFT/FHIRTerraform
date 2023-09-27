@@ -14,8 +14,15 @@ resource "azurerm_app_configuration" "this" {
   resource_group_name = var.resource_group_name
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
   sku                 = var.sku
+
+  identity {
+    type = "SystemAssigned"
+  }
+
   tags                = var.tags
 }
+
+# todo Russell There needs to be a system assigned identity permission added here to the Keyvault to read secrets
 
 resource "azurerm_app_configuration_key" "keys" {
   for_each = var.keys

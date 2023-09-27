@@ -47,7 +47,7 @@ module "PrivateDnsZones" {
 
 locals {
   aad_function_app_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  aad_function_app_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
+  aad_function_app_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 
   app_configuration_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
   app_configuration_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].appconfig_private_dns_zone_id : null
@@ -66,10 +66,10 @@ locals {
   healthcareApis_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
 
   linux_function_app_export_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  linux_function_app_export_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
+  linux_function_app_export_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 
   process_message_function_app_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  process_message_function_app_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
+  process_message_function_app_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 
   storageblob_private_dns_zone_id                   = var.deploy_private_endpoints ? module.PrivateDnsZones[0].storageblob_private_dns_zone_id : null
   storage_FHIRExport_private_endpoint_subnet_id     = var.deploy_private_endpoints ? module.Network.subnet_id : null
@@ -84,7 +84,7 @@ locals {
   website_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 
   windows_function_app_dataexport_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
-  windows_function_app_dataexport_private_dns_zone_id = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
+  windows_function_app_dataexport_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 }
 
 #todo move resource_group_name to input variables separated by type
@@ -94,18 +94,18 @@ module "FHIRDeployment" {
 
   resource_prefix = var.resource_prefix
 
-  aad_function_app_name                = var.aad_function_app_name
-  aad_function_app_resource_group_name = var.resource_group_name
+  aad_function_app_name                       = var.aad_function_app_name
+  aad_function_app_resource_group_name        = var.resource_group_name
   aad_function_app_private_endpoint_subnet_id = local.aad_function_app_private_endpoint_subnet_id
-  aad_function_app_private_dns_zone_id = local.aad_function_app_private_dns_zone_id
+  aad_function_app_private_dns_zone_id        = local.aad_function_app_private_dns_zone_id
 
   ampls_scope_name = module.azuremonitorprivatelinkscope.name
 
-  apimanagement_name = var.apimanagement_name
+  apimanagement_name                = var.apimanagement_name
   apimanagement_resource_group_name = var.resource_group_name
-  apimanagement_publisher_email = var.apimanagement_publisher_email
-  apimanagement_publisher_name = var.apimanagement_publisher_name
-  apimanagement_sku_name = var.apimanagement_sku_name
+  apimanagement_publisher_email     = var.apimanagement_publisher_email
+  apimanagement_publisher_name      = var.apimanagement_publisher_name
+  apimanagement_sku_name            = var.apimanagement_sku_name
 
   app_configuration_name                       = var.app_configuration_name
   app_configuration_resource_group_name        = var.resource_group_name
@@ -119,7 +119,7 @@ module "FHIRDeployment" {
   application_insights_sampling_percentage = var.application_insights_sampling_percentage
 
   azure_app_client_id = var.azure_app_client_id
-  azure_audience = var.azure_audience
+  azure_audience      = var.azure_audience
 
   event_grid_system_topic_name                = var.event_grid_system_topic_name
   event_grid_system_topic_resource_group_name = var.resource_group_name
@@ -141,20 +141,20 @@ module "FHIRDeployment" {
   keyvault_private_dns_zone_id        = local.keyvault_private_dns_zone_id
   keyvault_private_endpoint_subnet_id = local.keyvault_private_endpoint_subnet_id
 
-  linux_function_app_export_name = var.linux_function_app_export_name
-  linux_function_app_export_resource_group_name = var.resource_group_name
+  linux_function_app_export_name                       = var.linux_function_app_export_name
+  linux_function_app_export_resource_group_name        = var.resource_group_name
   linux_function_app_export_private_endpoint_subnet_id = local.linux_function_app_export_private_endpoint_subnet_id
-  linux_function_app_export_private_dns_zone_id = local.linux_function_app_export_private_dns_zone_id
+  linux_function_app_export_private_dns_zone_id        = local.linux_function_app_export_private_dns_zone_id
 
   log_analytics_name                = var.log_analytics_name
   log_analytics_resource_group_name = var.resource_group_name
   log_analytics_retention_in_days   = var.log_analytics_retention_in_days
   log_analytics_sku                 = var.log_analytics_sku
 
-  process_message_function_app_name = var.process_message_function_app_name
-  process_message_function_app_resource_group_name = var.resource_group_name 
+  process_message_function_app_name                       = var.process_message_function_app_name
+  process_message_function_app_resource_group_name        = var.resource_group_name
   process_message_function_app_private_endpoint_subnet_id = local.process_message_function_app_private_endpoint_subnet_id
-  process_message_function_app_private_dns_zone_id = local.process_message_function_app_private_dns_zone_id
+  process_message_function_app_private_dns_zone_id        = local.process_message_function_app_private_dns_zone_id
 
   static_site_name                       = var.static_site_name
   static_site_resource_group_name        = var.resource_group_name
@@ -209,10 +209,10 @@ module "FHIRDeployment" {
   storage_ProcessMessage_private_endpoint_subnet_id = local.storage_ProcessMessage_private_endpoint_subnet_id
   storage_ProcessMessage_resource_group_name        = var.resource_group_name
 
-  windows_function_app_dataexport_name = var.windows_function_app_dataexport_name
-  windows_function_app_dataexport_resource_group_name = var.resource_group_name
+  windows_function_app_dataexport_name                       = var.windows_function_app_dataexport_name
+  windows_function_app_dataexport_resource_group_name        = var.resource_group_name
   windows_function_app_dataexport_private_endpoint_subnet_id = local.windows_function_app_dataexport_private_endpoint_subnet_id
-  windows_function_app_dataexport_private_dns_zone_id = local.windows_function_app_dataexport_private_dns_zone_id
+  windows_function_app_dataexport_private_dns_zone_id        = local.windows_function_app_dataexport_private_dns_zone_id
 
   tags = var.tags
 

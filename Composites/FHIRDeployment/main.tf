@@ -3,8 +3,6 @@ locals {
 
 data "azurerm_client_config" "current" {}
 
-#todo now russell -- Get Secret Permission for data export function app identity
-#todo now russell -- Get Secret Permission for process message function app identity
 #todo now russell -- Key Values from existing vault
 module "KeyVault" {
   source = "./../../Modules/KeyVault"
@@ -18,6 +16,60 @@ module "KeyVault" {
   private_dns_zone_id = var.keyvault_private_dns_zone_id
 
   tags = var.tags
+}
+
+# Current User Key Vault Permissions
+resource "azurerm_key_vault_access_policy" "CurrentUser" {
+  key_vault_id = module.KeyVault.id
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = data.azurerm_client_config.current.object_id
+
+  key_permissions = [
+    "Create",
+    "Get",
+  ]
+
+  secret_permissions = [
+    "Set",
+    "List",
+    "Get",
+    "Delete",
+    "Purge",
+    "Recover"
+  ]
+}
+
+# Azure Application Configuration permission to get secrets
+resource "azurerm_key_vault_access_policy" "AppConfig" {
+  key_vault_id = module.KeyVault.id
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = module.AppConfiguration.principal_id
+
+  secret_permissions = [
+    "Get"
+  ]
+}
+
+# Data Export Function Application permission to get secrets
+resource "azurerm_key_vault_access_policy" "DataExportFunctionApp" {
+  key_vault_id = module.KeyVault.id
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = module.DataExportFunctionApp.principal_id
+
+  secret_permissions = [
+    "Get"
+  ]
+}
+
+# Process Message Function Application permission to get secrets
+resource "azurerm_key_vault_access_policy" "ProcessMessageFunctionApp" {
+  key_vault_id = module.KeyVault.id
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = module.ProcessMessageFunctionApp.principal_id
+
+  secret_permissions = [
+    "Get"
+  ]
 }
 
 module "StaticSite" {
@@ -374,7 +426,7 @@ module "APIManagement" {
 
   #todo now russell, define
   virtual_network_type = "External"
-  subnet_id            = var.windows_function_app_dataexport_private_endpoint_subnet_id
+  subnet_id            = null
 }
 
 module "AppConfiguration" {

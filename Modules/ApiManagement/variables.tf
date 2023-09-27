@@ -42,6 +42,7 @@ variable "virtual_network_type" {
 variable "subnet_id" {
   type        = string
   description = ""
+  default = null
 }
 
 variable "tags" {
