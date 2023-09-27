@@ -34,11 +34,6 @@ variable "sku_name" {
   description = "Specifies the Sku of API Management"
 }
 
-variable "virtual_network_type" {
-  type        = string
-  description = ""
-}
-
 variable "subnet_id" {
   type        = string
   description = ""

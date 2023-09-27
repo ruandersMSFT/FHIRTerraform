@@ -14,7 +14,6 @@ module "APIManagement" {
   resource_group_name = var.resource_group_name
   resource_prefix = var.resource_prefix
   sku_name            = var.sku_name
-  virtual_network_type = var.virtual_network_type
   subnet_id = var.subnet_id
 }
 

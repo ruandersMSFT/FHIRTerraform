@@ -59,11 +59,6 @@ variable "process_message_function_url" {
   description = ""
 }
 
-variable "virtual_network_type" {
-  type        = string
-  description = ""
-}
-
 variable "subnet_id" {
   type        = string
   description = ""

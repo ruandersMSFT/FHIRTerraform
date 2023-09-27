@@ -424,8 +424,6 @@ module "APIManagement" {
   azure_audience               = var.azure_audience
   process_message_function_url = "${module.ProcessMessageFunctionApp.default_hosturl}/api/ProcessMessage?code=${module.ProcessMessageFunctionApp.default_function_key}&amp;clientId=default"
 
-  #todo now russell, define
-  virtual_network_type = "External"
   subnet_id            = null
 }
 
