@@ -17,7 +17,6 @@ module "APIManagement" {
   subnet_id = var.subnet_id
 }
 
-/*
 resource "azurerm_api_management_backend" "contextFrontendAppBackend" {
   name                = "contextFrontendAppBackend"
   resource_group_name = var.resource_group_name
@@ -146,4 +145,3 @@ module "FHIR" {
     azurerm_api_management_named_value.tenantid
   ]
 }
-*/
