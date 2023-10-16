@@ -18,6 +18,7 @@ resource "azurerm_windows_function_app" "this" {
   client_certificate_mode    = "Required"
   location                   = coalesce(var.location, data.azurerm_resource_group.this.location)
   name                       = "${var.resource_prefix}${var.name}"
+  public_network_access_enabled = false
   resource_group_name        = var.resource_group_name
   service_plan_id            = var.service_plan_id
   storage_account_access_key = var.storage_account_access_key
@@ -33,7 +34,7 @@ resource "azurerm_windows_function_app" "this" {
 }
 
 module "PrivateEndpoint" {
-  count = local.deploy_private_endpoint ? 1 : 0
+  count = 1
   source = "../PrivateEndpoint"
 
   name                = var.name # todo now russell

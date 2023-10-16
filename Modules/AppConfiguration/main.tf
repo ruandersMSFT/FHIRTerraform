@@ -33,7 +33,7 @@ resource "azurerm_app_configuration_key" "keys" {
 }
 
 module "PrivateEndpoint" {
-  count = local.deploy_private_endpoint ? 1 : 0
+  count = 1
   source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
