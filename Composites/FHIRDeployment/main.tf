@@ -457,6 +457,8 @@ resource "azurerm_role_assignment" "appconf_dataowner" {
   scope                = module.AppConfiguration.id
   role_definition_name = "App Configuration Data Owner"
   principal_id         = data.azurerm_client_config.current.object_id
+
+  depends_on = [ module.AppConfiguration ]
 }
 
 data "azurerm_key_vault" "existing" {
