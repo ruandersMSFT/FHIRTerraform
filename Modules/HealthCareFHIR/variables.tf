@@ -9,6 +9,11 @@ variable "resource_group_name" {
   description = "Azure Resource Group Name"
 }
 
+variable "azurerm_healthcare_workspace_id" {
+  type        = string
+  description = ""
+}
+
 variable "workspace_name" {
   type        = string
   description = ""

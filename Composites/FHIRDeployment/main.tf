@@ -173,6 +173,7 @@ module "AzureHealthCareFHIR" {
   name                                      = var.healthcare_fhir_name
   resource_prefix                           = var.resource_prefix
   resource_group_name                       = var.healthcare_fhir_resource_group_name
+  azurerm_healthcare_workspace_id           = module.AzureHealthCareWorkspace.id
   workspace_name                            = module.AzureHealthCareWorkspace.name
   tags                                      = var.tags
 

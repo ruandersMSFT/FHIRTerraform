@@ -8,15 +8,14 @@ variable "name" {
   description = "Private Dns Zone Name"
 }
 
-variable "vnet_links" {
-  type = list(object({
-    zone_to_vnet_link_name    = string
-    vnet_name                 = string
-    virtual_network_id        = string
-    networking_resource_group = string
-    registration_enabled      = bool
-  }))
-  default = []
+variable "zone_to_vnet_link_name" {
+  type        = string
+  description = ""
+}
+
+variable "virtual_network_id" {
+  type        = string
+  description = ""
 }
 
 variable "tags" {
