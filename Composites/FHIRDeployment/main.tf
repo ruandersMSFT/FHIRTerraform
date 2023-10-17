@@ -465,6 +465,7 @@ resource "azurerm_role_assignment" "appconf_dataowner" {
 data "azurerm_key_vault" "existing" {
   name                = module.KeyVault.name
   resource_group_name = module.KeyVault.resource_group_name
+  depends_on = [ module.KeyVault ]
 }
 
 data "azurerm_key_vault_secret" "ClientId" {
