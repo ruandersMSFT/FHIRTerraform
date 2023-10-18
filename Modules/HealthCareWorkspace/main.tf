@@ -30,6 +30,6 @@ module "PrivateEndpoint" {
   resource_group_name = var.resource_group_name
   resource_id         = azurerm_healthcare_workspace.HealthCareWorkspace.id
   subnet_id           = var.subnet_id
-  subresource_names   = ["heathcareworkspace"] 
+  subresource_names   = ["healthcareworkspace"] 
   tags                = var.tags
 }

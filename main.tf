@@ -13,6 +13,18 @@ import {
   id = "/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourceGroups/cdc-dex-smart-terraform-rg/providers/Microsoft.Network/virtualNetworks/cdc-dex-smart-network"
 }
 
+import {
+  to = module.FHIRDeployment.azurerm_key_vault_access_policy.CurrentUser
+  id = "/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourceGroups/cdc-dex-smart-terraform-rg/providers/Microsoft.KeyVault/vaults/cdc-dex-smart-tf-backkv/objectId/a0f38195-0054-4197-bb43-88dd69e5dacf"
+}
+
+import {
+  to = module.FHIRDeployment.module.StaticSite.module.PrivateEndpoint[0].azurerm_private_endpoint.this
+  id = "/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourceGroups/cdc-dex-smart-terraform-rg/providers/Microsoft.Network/privateEndpoints/staticsite"
+}
+
+
+
 resource "azurerm_resource_group" "dex_smart" {
   name     = var.resource_group_name
   location = var.resource_group_location
