@@ -310,10 +310,7 @@ module "ProcessMessageFunctionApp" {
   application_insights_connection_string = module.ApplicationInsights.connection_string
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = {
-    #todo now russell
-    "hidden-related:/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourceGroups/cdc-dex-smart-dev-rg/providers/Microsoft.Web/serverFarms/${var.process_message_function_app_name}" = "empty"
-  }
+  tags = { }
 
   subnet_id           = var.process_message_function_app_private_endpoint_subnet_id
   private_dns_zone_id = var.process_message_function_app_private_dns_zone_id
@@ -401,10 +398,7 @@ module "DataExportFunctionApp" {
   application_insights_connection_string = module.ApplicationInsights.connection_string
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = {
-    #todo now russell
-    "hidden-related:/subscriptions/df479416-a3f3-42b4-97ab-0a0a2b788ba3/resourceGroups/cdc-dex-smart-dev-rg/providers/Microsoft.Web/serverFarms/${var.windows_function_app_dataexport_name}" = "empty"
-  }
+  tags = { }
 
   subnet_id           = var.windows_function_app_dataexport_private_endpoint_subnet_id
   private_dns_zone_id = var.windows_function_app_dataexport_private_dns_zone_id
