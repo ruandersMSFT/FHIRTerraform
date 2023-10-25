@@ -195,11 +195,6 @@ module "StorageAccountDataExport" {
   private_dns_zone_id      = var.storage_DataExport_blob_private_dns_zone_id
 
   tags = {}
-  /*
-  tags = {
-    "hidden-related:/providers/Microsoft.Web/sites/${var.windows_function_app_dataexport_name}" = "empty"
-  }
-  */
 }
 
 module "StorageAccountProcessMessage" {
@@ -217,11 +212,6 @@ module "StorageAccountProcessMessage" {
   private_dns_zone_id      = var.storage_ProcessMessage_blob_private_dns_zone_id
 
   tags = {}
-  /*
-  tags = {
-    "hidden-related:/providers/Microsoft.Web/sites/${var.process_message_function_app_name}" = "empty"
-  }
-  */
 }
 
 module "StorageAccountDataLakeExport" {
@@ -344,13 +334,7 @@ module "AADFunctionApp" {
   application_insights_key               = module.ApplicationInsights.instrumentation_key
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = {
-    AppID                                            = "fhir-smart-onc-g10-sample"
-    azd-env-name                                     = "cdc-dex-smart-dev"
-    azd-service-name                                 = "auth"
-    "hidden-link: /app-insights-instrumentation-key" = module.ApplicationInsights.instrumentation_key
-    "hidden-link: /app-insights-resource-id"         = module.ApplicationInsights.id
-  }
+  tags = { }
 
   subnet_id           = var.aad_function_app_private_endpoint_subnet_id
   private_dns_zone_id = var.aad_function_app_private_dns_zone_id
