@@ -29,7 +29,6 @@ variable "workspace_id" {
   description = "Specifies the Log Analytics Workspace Id used by Application Insights"
 }
 
-# todo now russell review...?
 variable "sampling_percentage" {
   type        = number
   description = "Specifies the Log Analytics Workspace Id used by Application Insights"

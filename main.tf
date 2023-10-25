@@ -10,7 +10,6 @@ module "Network" {
   tags                = var.tags
 }
 
-# todo - this needs to be optional / parameterized
 module "azuremonitorprivatelinkscope" {
   source = "./Modules/AMPLS"
 

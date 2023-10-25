@@ -76,7 +76,7 @@ module "PrivateEndpoint" {
   count  = 1
   source = "../PrivateEndpoint"
 
-  name                = "redis" # todo now russell
+  name                = var.name
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name
   resource_id         = azurerm_redis_cache.this.id

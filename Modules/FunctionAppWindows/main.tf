@@ -37,7 +37,7 @@ module "PrivateEndpoint" {
   count  = 1
   source = "../PrivateEndpoint"
 
-  name                = var.name # todo now russell
+  name                = var.name
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name
   resource_id         = azurerm_windows_function_app.this.id
