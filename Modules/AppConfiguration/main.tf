@@ -6,9 +6,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - App Configuration
-# -
 resource "azurerm_app_configuration" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name

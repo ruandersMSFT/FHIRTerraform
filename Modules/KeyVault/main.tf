@@ -1,6 +1,3 @@
-# -
-# - Get the current user config
-# -
 data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
@@ -10,7 +7,7 @@ locals {
 
   default_network_acls = {
     bypass                     = "AzureServices"
-    default_action             = "Allow" # todo now russell Deny? vs private endpoint
+    default_action             = "Allow"
     ip_rules                   = []
     virtual_network_subnet_ids = []
   }
@@ -24,9 +21,6 @@ locals {
   merged_network_acls = var.network_acls != null ? merge(local.default_network_acls, var.network_acls) : null
 }
 
-# -
-# - Setup key vault 
-# -
 resource "azurerm_key_vault" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name

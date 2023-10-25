@@ -1,6 +1,3 @@
-# -
-# - Get the current user config
-# -
 data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
@@ -8,9 +5,6 @@ data "azurerm_resource_group" "this" {
 locals {
 }
 
-# -
-# - Private Endpoint
-# -
 resource "azurerm_private_endpoint" "this" {
   name                = var.name
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
@@ -25,7 +19,7 @@ resource "azurerm_private_endpoint" "this" {
   }
 
   private_dns_zone_group {
-    name                 = "example-dns-zone-group"
+    name                 = "example-dns-zone-group" #todo
     private_dns_zone_ids = [var.private_dns_zone_id]
   }
 

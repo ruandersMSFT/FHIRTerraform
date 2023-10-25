@@ -6,9 +6,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - Windows Function App
-# -
 resource "azurerm_windows_function_app" "this" {
   app_settings = {
     FhirFunctionAppConfigConnectionString = var.FhirFunctionAppConfigConnectionString

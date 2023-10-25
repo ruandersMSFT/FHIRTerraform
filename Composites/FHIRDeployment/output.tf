@@ -1,7 +1,3 @@
-# #############################################################################
-# # OUTPUTS FHIR Deployment
-# #############################################################################
-
 output "FhirServerUrl" {
   value = module.AzureHealthCareFHIR.FhirServerUrl
 }

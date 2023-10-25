@@ -5,9 +5,6 @@ locals {
   deploy_private_endpoint = (var.subnet_id != null && var.private_dns_zone_id != null)
 }
 
-# -
-# - Get the current user config
-# -
 data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
@@ -27,9 +24,6 @@ locals {
   }
 }
 
-# -
-# - Storage Account
-# -
 resource "azurerm_storage_account" "this" {
   name                      = "${local.storage_resource_prefix}${var.name}"
   resource_group_name       = var.resource_group_name
@@ -65,92 +59,11 @@ resource "azurerm_storage_account" "this" {
 }
 
 /*
-# -
-# - Container
-# -
 resource "azurerm_storage_container" "this" {
   for_each              = var.containers
   name                  = each.value["name"]
   storage_account_name  = each.value["storage_account_name"]
   container_access_type = coalesce(lookup(each.value, "container_access_type"), "private")
-  depends_on = [
-    azurerm_storage_account.this,
-    azurerm_private_endpoint.this,
-    azurerm_private_dns_a_record.this
-  ]
-}
-
-# -
-# - Blob
-# -
-resource "azurerm_storage_blob" "this" {
-  for_each               = local.blobs
-  name                   = each.value["name"]
-  storage_account_name   = each.value["storage_account_name"]
-  storage_container_name = each.value["storage_container_name"]
-  type                   = each.value["type"]
-  size                   = lookup(each.value, "size", null)
-  content_type           = lookup(each.value, "content_type", null)
-  source_uri             = lookup(each.value, "source_uri", null)
-  metadata               = lookup(each.value, "metadata", null)
-  depends_on = [
-    azurerm_storage_account.this,
-    azurerm_storage_container.this,
-    azurerm_private_endpoint.this,
-    azurerm_private_dns_a_record.this
-  ]
-}
-
-# -
-# - Queue
-# -
-resource "azurerm_storage_queue" "this" {
-  for_each             = var.queues
-  name                 = each.value["name"]
-  storage_account_name = each.value["storage_account_name"]
-  depends_on = [
-    azurerm_storage_account.this,
-    azurerm_private_endpoint.this,
-    azurerm_private_dns_a_record.this
-  ]
-}
-
-# -
-# - File Share
-# -
-resource "azurerm_storage_share" "this" {
-  for_each             = var.file_shares
-  name                 = each.value["name"]
-  storage_account_name = each.value["storage_account_name"]
-  quota                = coalesce(lookup(each.value, "quota"), 110)
-  depends_on = [
-    azurerm_storage_account.this,
-    azurerm_private_endpoint.this,
-    azurerm_private_dns_a_record.this
-  ]
-}
-
-# -
-# - Table
-# -
-resource "azurerm_storage_table" "this" {
-  for_each             = var.tables
-  name                 = each.value["name"]
-  storage_account_name = each.value["storage_account_name"]
-  depends_on = [
-    azurerm_storage_account.this,
-    azurerm_private_endpoint.this,
-    azurerm_private_dns_a_record.this
-  ]
-}
-
-# -
-# - Data Lake Gen2 FileSystem
-# -
-resource "azurerm_storage_data_lake_gen2_filesystem" "this" {
-  for_each           = var.adlsfilesystems
-  name               = each.value["name"]
-  storage_account_id = azurerm_storage_account.this[each.value["sa_id"]].id
   depends_on = [
     azurerm_storage_account.this,
     azurerm_private_endpoint.this,

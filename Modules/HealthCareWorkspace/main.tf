@@ -9,10 +9,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - Custom Script with Azure Health Care Workspace
-# -
-
 resource "azurerm_healthcare_workspace" "HealthCareWorkspace" {
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
   name                = "${local.healthcare_workspace_resource_prefix}${var.name}"

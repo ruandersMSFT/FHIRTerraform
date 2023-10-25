@@ -6,10 +6,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - Application Insights
-# -
-
 resource "azurerm_application_insights" "this" {
   application_type    = var.application_type
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)

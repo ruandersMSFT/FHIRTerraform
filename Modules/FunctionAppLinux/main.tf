@@ -6,9 +6,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - Setup Linux Function App
-# -
 resource "azurerm_linux_function_app" "this" {
   app_settings                  = var.app_settings
   builtin_logging_enabled       = false

@@ -5,9 +5,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - API Management
-# -
 resource "azurerm_api_management" "this" {
   location             = coalesce(var.location, data.azurerm_resource_group.this.location)
   name                 = "${var.resource_prefix}${var.name}"

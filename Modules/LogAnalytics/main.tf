@@ -1,6 +1,3 @@
-# -
-# - Get the current user config
-# -
 data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
@@ -9,9 +6,6 @@ locals {
   deploy_ampls = (var.ampls_scope_name != null)
 }
 
-# -
-# - Create Log Analytics Workspace
-# -
 resource "azurerm_log_analytics_workspace" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name

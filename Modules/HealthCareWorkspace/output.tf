@@ -1,7 +1,3 @@
-# #############################################################################
-# # OUTPUTS Health Care Workspace
-# #############################################################################
-
 output "id" {
   value = azurerm_healthcare_workspace.HealthCareWorkspace.id
 }

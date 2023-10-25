@@ -1,7 +1,3 @@
-# #############################################################################
-# # OUTPUTS Private DNS Zones
-# #############################################################################
-
 output "appconfig_private_dns_zone_id" {
   value = module.AppConfig_PrivateDnsZone.id
 }

@@ -2,10 +2,6 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
-# -
-# - Custom Script with Azure Health Care FHIR Service
-# -
-
 resource "azurerm_healthcare_fhir_service" "this" {
   configuration_export_storage_account_name = var.configuration_export_storage_account_name
   location                                  = coalesce(var.location, data.azurerm_resource_group.this.location)
