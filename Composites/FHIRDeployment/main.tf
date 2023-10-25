@@ -1,11 +1,11 @@
 locals {
 }
 
-data "azurerm_client_config" "current" {}
-
 #todo now russell -- Key Values from existing vault
 module "KeyVault" {
   source = "./../../Modules/KeyVault"
+
+  tenant_id    = var.tenant_id
 
   resource_prefix     = var.resource_prefix
   name                = var.keyvault_name
@@ -21,8 +21,8 @@ module "KeyVault" {
 # Current User Key Vault Permissions
 resource "azurerm_key_vault_access_policy" "CurrentUser" {
   key_vault_id = module.KeyVault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-  object_id    = data.azurerm_client_config.current.object_id
+  tenant_id    = var.tenant_id
+  object_id    = var.current_object_id
 
   key_permissions = [
     "Create",
@@ -42,7 +42,7 @@ resource "azurerm_key_vault_access_policy" "CurrentUser" {
 # Azure Application Configuration permission to get secrets
 resource "azurerm_key_vault_access_policy" "AppConfig" {
   key_vault_id = module.KeyVault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
+  tenant_id    = var.tenant_id
   object_id    = module.AppConfiguration.principal_id
 
   secret_permissions = [
@@ -53,7 +53,7 @@ resource "azurerm_key_vault_access_policy" "AppConfig" {
 # Data Export Function Application permission to get secrets
 resource "azurerm_key_vault_access_policy" "DataExportFunctionApp" {
   key_vault_id = module.KeyVault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
+  tenant_id    = var.tenant_id
   object_id    = module.DataExportFunctionApp.principal_id
 
   secret_permissions = [
@@ -64,7 +64,7 @@ resource "azurerm_key_vault_access_policy" "DataExportFunctionApp" {
 # Process Message Function Application permission to get secrets
 resource "azurerm_key_vault_access_policy" "ProcessMessageFunctionApp" {
   key_vault_id = module.KeyVault.id
-  tenant_id    = data.azurerm_client_config.current.tenant_id
+  tenant_id    = var.tenant_id
   object_id    = module.ProcessMessageFunctionApp.principal_id
 
   secret_permissions = [
@@ -168,7 +168,7 @@ module "AzureHealthCareFHIR" {
   source = "./../../Modules/HealthCareFHIR"
 
   authentication_audience                   = var.healthcare_fhir_authentication_audience
-  authentication_authority                  = "${var.healthcare_fhir_authentication_authority}/${data.azurerm_client_config.current.tenant_id}"
+  authentication_authority                  = "${var.healthcare_fhir_authentication_authority}/${var.tenant_id}"
   configuration_export_storage_account_name = module.StorageAccountFHIRExport.name
   name                                      = var.healthcare_fhir_name
   resource_prefix                           = var.resource_prefix
@@ -335,7 +335,7 @@ module "AADFunctionApp" {
     azure_app_client_id                         = var.azure_app_client_id
     AZURE_Debug                                 = "true"
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
-    AZURE_TenantId                              = data.azurerm_client_config.current.tenant_id
+    AZURE_TenantId                              = var.tenant_id
     ENABLE_ORYX_BUILD                           = "true"
     SCM_DO_BUILD_DURING_DEPLOYMENT              = "false"
   }
@@ -372,7 +372,7 @@ module "ExportFunctionApp" {
     AZURE_Debug                                 = "true"
     AZURE_ExportStorageAccountUrl               = module.StorageAccountFHIRExport.primary_blob_endpoint
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
-    AZURE_TenantId                              = data.azurerm_client_config.current.tenant_id
+    AZURE_TenantId                              = var.tenant_id
     ENABLE_ORYX_BUILD                           = "true"
     SCM_DO_BUILD_DURING_DEPLOYMENT              = "false"
   }
@@ -426,7 +426,7 @@ module "AppConfiguration" {
   keys = {
     "AuthInstance"                          = "https://login.microsoftonline.com/{0}/oauth2/token"
     "AuthScope"                             = "${module.AzureHealthCareFHIR.FhirServerUrl}/.default"
-    "AuthTenantId"                          = data.azurerm_client_config.current.tenant_id
+    "AuthTenantId"                          = var.tenant_id
     "BaseFhirUrl"                           = "https://${var.apimanagement_hostname}"
     "Export:DatalakeBlobContainer"          = "fhirdatadestination" # todo now russell container needs to get created
     "Export:DatalakeStorageAccount"         = var.storage_DataLakeExport_name
@@ -439,7 +439,7 @@ module "AppConfiguration" {
 resource "azurerm_role_assignment" "appconf_dataowner" {
   scope                = module.AppConfiguration.id
   role_definition_name = "App Configuration Data Owner"
-  principal_id         = data.azurerm_client_config.current.object_id
+  principal_id         = var.current_object_id
 
   depends_on = [module.AppConfiguration]
 }

@@ -19,6 +19,11 @@ variable "resource_prefix" {
   description = ""
 }
 
+variable "tenant_id" {
+  type        = string
+  description = ""
+}
+
 variable "publisher_email" {
   type        = string
   description = ""

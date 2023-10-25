@@ -13,3 +13,7 @@ variable "azure_audience" {
   description = "API Management Name"
 }
 
+variable "tenant_id" {
+  type        = string
+  description = ""
+}

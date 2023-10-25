@@ -2,8 +2,6 @@ locals {
 
 }
 
-data "azurerm_client_config" "current" {}
-
 module "APIManagement" {
   source = "../../Modules/ApiManagement"
 
@@ -82,7 +80,7 @@ resource "azurerm_api_management_named_value" "tenantid" {
   resource_group_name = var.resource_group_name
   api_management_name = module.APIManagement.name
   display_name        = "TenantId"
-  value               = data.azurerm_client_config.current.tenant_id
+  value               = var.tenant_id
 
   depends_on = [
     module.APIManagement
@@ -120,6 +118,8 @@ module "SMARTv1" {
 
 module "FHIRAuth" {
   source = "./FHIRAuth"
+
+  tenant_id = var.tenant_id
 
   api_management_name = module.APIManagement.name
   resource_group_name = var.resource_group_name

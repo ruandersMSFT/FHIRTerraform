@@ -1,8 +1,6 @@
 # -
 # - Get the current user config
 # -
-data "azurerm_client_config" "current" {}
-
 data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
@@ -33,7 +31,7 @@ resource "azurerm_key_vault" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
-  tenant_id           = data.azurerm_client_config.current.tenant_id
+  tenant_id           = var.tenant_id
 
   enabled_for_deployment          = var.enabled_for_deployment
   enabled_for_disk_encryption     = var.enabled_for_disk_encryption

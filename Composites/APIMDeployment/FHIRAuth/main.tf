@@ -2,14 +2,12 @@ locals {
   api_name = "FHIR-Auth"
 }
 
-data "azurerm_client_config" "current" {}
-
 resource "azurerm_api_management_api" "this" {
   api_management_name   = var.api_management_name
   name                  = local.api_name
   display_name          = "FHIR Auth"
   path                  = "basicAuth"
-  service_url           = "https://login.microsoftonline.com/${data.azurerm_client_config.current.tenant_id}/oauth2/token"
+  service_url           = "https://login.microsoftonline.com/${var.tenant_id}/oauth2/token"
   protocols             = ["https"]
   resource_group_name   = var.resource_group_name
   revision              = "1"

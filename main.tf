@@ -1,5 +1,3 @@
-data "azurerm_client_config" "current" {}
-
 locals {
 }
 
@@ -114,7 +112,9 @@ locals {
 module "FHIRDeployment" {
   source = "./Composites/FHIRDeployment"
 
-  resource_prefix = var.resource_prefix
+  resource_prefix   = var.resource_prefix
+  tenant_id         = data.azurerm_client_config.current.tenant_id
+  current_object_id = data.azurerm_client_config.current.object_id
 
   aad_function_app_name                       = var.aad_function_app_name
   aad_function_app_resource_group_name        = var.resource_group_name
@@ -244,6 +244,8 @@ module "FHIRDeployment" {
 
 module "APIMDeployment" {
   source = "./Composites/APIMDeployment"
+
+  tenant_id = data.azurerm_client_config.current.tenant_id
 
   name                         = var.apimanagement_name
   publisher_email              = var.apimanagement_publisher_email

@@ -19,6 +19,11 @@ variable "resource_prefix" {
   description = ""
 }
 
+variable "tenant_id" {
+  type        = string
+  description = ""
+}
+
 variable "sku_name" {
   type        = string
   description = "The name of the SKU used for the Key Vault. The options are: `standard`, `premium`."

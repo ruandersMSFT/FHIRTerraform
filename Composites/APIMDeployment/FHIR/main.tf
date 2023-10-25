@@ -2,8 +2,6 @@ locals {
   api_name = "cdc-fhir-swagger-import"
 }
 
-data "azurerm_client_config" "current" {}
-
 resource "azurerm_api_management_api" "this" {
   api_management_name   = var.api_management_name
   name                  = local.api_name

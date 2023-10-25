@@ -4,6 +4,16 @@ variable "resource_prefix" {
   default     = null
 }
 
+variable "tenant_id" {
+  type        = string
+  description = ""
+}
+
+variable "current_object_id" {
+  type        = string
+  description = ""
+}
+
 variable "aad_function_app_name" {
   type        = string
   description = ""
