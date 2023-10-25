@@ -27,13 +27,13 @@ variable "sku" {
 variable "subnet_id" {
   type        = string
   description = ""
-  default = null
+  default     = null
 }
 
 variable "private_dns_zone_id" {
   type        = string
   description = ""
-  default = null
+  default     = null
 }
 
 variable "keys" {

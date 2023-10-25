@@ -1,7 +1,7 @@
 variable "location" {
   type        = string
   description = "Private Endpoint resource location if different than the resource group's location."
-  default = null
+  default     = null
 }
 
 variable "resource_group_name" {

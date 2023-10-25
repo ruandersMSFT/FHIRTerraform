@@ -47,7 +47,7 @@ variable "application_insights_key" {
 variable "allowed_origins" {
   type        = list(string)
   description = ""
-  default = null
+  default     = null
 }
 
 variable "FhirFunctionAppConfigConnectionString" {

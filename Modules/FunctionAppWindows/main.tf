@@ -14,16 +14,16 @@ resource "azurerm_windows_function_app" "this" {
     FhirFunctionAppConfigConnectionString = var.FhirFunctionAppConfigConnectionString
     WEBSITE_RUN_FROM_PACKAGE              = "1"
   }
-  builtin_logging_enabled    = false
-  client_certificate_mode    = "Required"
-  location                   = coalesce(var.location, data.azurerm_resource_group.this.location)
-  name                       = "${var.resource_prefix}${var.name}"
+  builtin_logging_enabled       = false
+  client_certificate_mode       = "Required"
+  location                      = coalesce(var.location, data.azurerm_resource_group.this.location)
+  name                          = "${var.resource_prefix}${var.name}"
   public_network_access_enabled = false
-  resource_group_name        = var.resource_group_name
-  service_plan_id            = var.service_plan_id
-  storage_account_access_key = var.storage_account_access_key
-  storage_account_name       = var.storage_account_name
-  tags = var.tags
+  resource_group_name           = var.resource_group_name
+  service_plan_id               = var.service_plan_id
+  storage_account_access_key    = var.storage_account_access_key
+  storage_account_name          = var.storage_account_name
+  tags                          = var.tags
   identity {
     type = "SystemAssigned"
   }
@@ -34,7 +34,7 @@ resource "azurerm_windows_function_app" "this" {
 }
 
 module "PrivateEndpoint" {
-  count = 1
+  count  = 1
   source = "../PrivateEndpoint"
 
   name                = var.name # todo now russell
@@ -49,5 +49,5 @@ module "PrivateEndpoint" {
 data "azurerm_function_app_host_keys" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
-  depends_on = [ azurerm_windows_function_app.this ]
+  depends_on          = [azurerm_windows_function_app.this]
 }

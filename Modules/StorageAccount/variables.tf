@@ -15,14 +15,14 @@ variable "resource_prefix" {
 }
 
 variable "large_file_share_enabled" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Is HNS Enabled"
 }
 
 variable "is_hns_enabled" {
-  type = bool
-  default = false
+  type        = bool
+  default     = false
   description = "Is HNS Enabled"
 }
 
@@ -50,13 +50,13 @@ variable "account_replication_type" {
 variable "access_tier" {
   type        = string
   description = "Access Tier (Hot or Cool)"
-  default = null
+  default     = null
 }
 
 variable "min_tls_version" {
   type        = string
   description = "Minimum TLS Version"
-  default = "TLS1_2"
+  default     = "TLS1_2"
 }
 
 variable "name" {
@@ -76,5 +76,5 @@ variable "private_dns_zone_id" {
 
 variable "tags" {
   type        = map(string)
-  description = "" 
+  description = ""
 }

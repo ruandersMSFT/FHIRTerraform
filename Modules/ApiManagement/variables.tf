@@ -37,7 +37,7 @@ variable "sku_name" {
 variable "subnet_id" {
   type        = string
   description = ""
-  default = null
+  default     = null
 }
 
 variable "tags" {

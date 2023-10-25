@@ -128,6 +128,7 @@ module "FHIRDeployment" {
   apimanagement_publisher_email     = var.apimanagement_publisher_email
   apimanagement_publisher_name      = var.apimanagement_publisher_name
   apimanagement_sku_name            = var.apimanagement_sku_name
+  apimanagement_hostname            = "asdf"
 
   app_configuration_name                       = var.app_configuration_name
   app_configuration_resource_group_name        = var.resource_group_name
@@ -237,6 +238,26 @@ module "FHIRDeployment" {
   windows_function_app_dataexport_private_dns_zone_id        = local.windows_function_app_dataexport_private_dns_zone_id
 
   tags = var.tags
+
+  depends_on = [module.Network]
+}
+
+module "APIMDeployment" {
+  source = "./Composites/APIMDeployment"
+
+  name                         = var.apimanagement_name
+  publisher_email              = var.apimanagement_publisher_email
+  publisher_name               = var.apimanagement_publisher_name
+  resource_prefix              = var.resource_prefix
+  resource_group_name          = var.resource_group_name
+  sku_name                     = var.apimanagement_sku_name
+  fhir_service_url             = module.FHIRDeployment.FhirServerUrl
+  static_site_hostname         = module.FHIRDeployment.static_site_default_host_name
+  aad_function_hostname        = module.FHIRDeployment.aad_function_app_defalt_hostname
+  azure_audience               = var.azure_audience
+  process_message_function_url = "${module.FHIRDeployment.processmessage_function_app_defalt_hostname}/api/ProcessMessage?code=${module.FHIRDeployment.processmessage_function_app_defalt_function_key}&amp;clientId=default"
+
+  subnet_id = null
 
   depends_on = [module.Network]
 }

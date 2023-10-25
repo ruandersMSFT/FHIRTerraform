@@ -13,13 +13,13 @@ resource "azurerm_static_site" "this" {
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
-  tags = var.tags
+  tags                = var.tags
 }
 
 module "PrivateEndpoint" {
-  count = 1
+  count  = 1
   source = "../PrivateEndpoint"
-  
+
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
   name                = "staticsite" # todo now russell
   private_dns_zone_id = var.private_dns_zone_id

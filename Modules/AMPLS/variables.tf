@@ -15,6 +15,6 @@ variable "resource_prefix" {
 
 variable "tags" {
   type        = map(string)
-  description = "" 
-  default = {}
+  description = ""
+  default     = {}
 }

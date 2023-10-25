@@ -1,6 +1,6 @@
 locals {
   storage_resource_prefix_lower = lower(var.resource_prefix)
-  storage_resource_prefix = replace(local.storage_resource_prefix_lower, "-", "")
+  storage_resource_prefix       = replace(local.storage_resource_prefix_lower, "-", "")
 
   deploy_private_endpoint = (var.subnet_id != null && var.private_dns_zone_id != null)
 }
@@ -52,7 +52,7 @@ resource "azurerm_storage_account" "this" {
     }
   }
 
-/*
+  /*
   dynamic "network_rules" {
     for_each = lookup(each.value, "network_rules", null) != null ? [merge(local.default_network_rules, lookup(each.value, "network_rules", null))] : [local.default_network_rules]
     content {
@@ -163,15 +163,15 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "this" {
 */
 
 module "PrivateEndpoint" {
-  count = 1
+  count  = 1
   source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
-  name = var.name # todo now russell
+  name                = var.name # todo now russell
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name
-  resource_id = azurerm_storage_account.this.id
-  subresource_names = ["blob"]
-  subnet_id = var.subnet_id
-  tags = var.tags
+  resource_id         = azurerm_storage_account.this.id
+  subresource_names   = ["blob"]
+  subnet_id           = var.subnet_id
+  tags                = var.tags
 }

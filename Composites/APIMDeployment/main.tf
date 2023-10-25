@@ -12,9 +12,9 @@ module "APIManagement" {
   publisher_email     = var.publisher_email
   publisher_name      = var.publisher_name
   resource_group_name = var.resource_group_name
-  resource_prefix = var.resource_prefix
+  resource_prefix     = var.resource_prefix
   sku_name            = var.sku_name
-  subnet_id = var.subnet_id
+  subnet_id           = var.subnet_id
 }
 
 resource "azurerm_api_management_backend" "contextFrontendAppBackend" {
@@ -46,7 +46,7 @@ resource "azurerm_api_management_backend" "fhir" {
   resource_group_name = var.resource_group_name
   api_management_name = module.APIManagement.name
   protocol            = "http"
-  url                 = "${var.fhir_service_url}"
+  url                 = var.fhir_service_url
 
   depends_on = [
     module.APIManagement
@@ -94,7 +94,7 @@ module "SMARTAuthAPI" {
 
   api_management_name = module.APIManagement.name
   resource_group_name = var.resource_group_name
-  a = "https://${var.aad_function_hostname}/api"
+  a                   = "https://${var.aad_function_hostname}/api"
 
   depends_on = [
     module.APIManagement,
@@ -109,7 +109,7 @@ module "SMARTv1" {
 
   api_management_name = module.APIManagement.name
   resource_group_name = var.resource_group_name
-  base_url = var.process_message_function_url
+  base_url            = var.process_message_function_url
 
   depends_on = [
     module.APIManagement,
@@ -123,7 +123,7 @@ module "FHIRAuth" {
 
   api_management_name = module.APIManagement.name
   resource_group_name = var.resource_group_name
-  azure_audience = var.azure_audience
+  azure_audience      = var.azure_audience
 
   depends_on = [
     module.APIManagement,
@@ -137,7 +137,7 @@ module "FHIR" {
 
   api_management_name = module.APIManagement.name
   resource_group_name = var.resource_group_name
-  fhir_service_url = var.fhir_service_url
+  fhir_service_url    = var.fhir_service_url
 
   depends_on = [
     module.APIManagement,

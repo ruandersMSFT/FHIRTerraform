@@ -19,7 +19,7 @@ resource "azurerm_app_configuration" "this" {
     type = "SystemAssigned"
   }
 
-  tags                = var.tags
+  tags = var.tags
 }
 
 # todo Russell There needs to be a system assigned identity permission added here to the Keyvault to read secrets
@@ -33,7 +33,7 @@ resource "azurerm_app_configuration_key" "keys" {
 }
 
 module "PrivateEndpoint" {
-  count = 1
+  count  = 1
   source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)

@@ -21,8 +21,8 @@ module "KeyVault" {
 # Current User Key Vault Permissions
 resource "azurerm_key_vault_access_policy" "CurrentUser" {
   key_vault_id = module.KeyVault.id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = data.azurerm_client_config.current.object_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = data.azurerm_client_config.current.object_id
 
   key_permissions = [
     "Create",
@@ -42,8 +42,8 @@ resource "azurerm_key_vault_access_policy" "CurrentUser" {
 # Azure Application Configuration permission to get secrets
 resource "azurerm_key_vault_access_policy" "AppConfig" {
   key_vault_id = module.KeyVault.id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = module.AppConfiguration.principal_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = module.AppConfiguration.principal_id
 
   secret_permissions = [
     "Get"
@@ -53,8 +53,8 @@ resource "azurerm_key_vault_access_policy" "AppConfig" {
 # Data Export Function Application permission to get secrets
 resource "azurerm_key_vault_access_policy" "DataExportFunctionApp" {
   key_vault_id = module.KeyVault.id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = module.DataExportFunctionApp.principal_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = module.DataExportFunctionApp.principal_id
 
   secret_permissions = [
     "Get"
@@ -64,8 +64,8 @@ resource "azurerm_key_vault_access_policy" "DataExportFunctionApp" {
 # Process Message Function Application permission to get secrets
 resource "azurerm_key_vault_access_policy" "ProcessMessageFunctionApp" {
   key_vault_id = module.KeyVault.id
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  object_id = module.ProcessMessageFunctionApp.principal_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+  object_id    = module.ProcessMessageFunctionApp.principal_id
 
   secret_permissions = [
     "Get"
@@ -143,7 +143,7 @@ module "AzureHealthCareWorkspace" {
   subnet_id           = var.healthcare_workspace_private_endpoint_subnet_id
   private_dns_zone_id = var.healthcare_workspace_private_dns_zone_id
 
-  tags                = var.tags
+  tags = var.tags
 }
 
 #todo variable should reference blob
@@ -161,7 +161,7 @@ module "StorageAccountFHIRExport" {
   subnet_id                = var.storage_FHIRExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_FHIRExport_blob_private_dns_zone_id
 
-  tags                     = var.tags
+  tags = var.tags
 }
 
 module "AzureHealthCareFHIR" {
@@ -194,8 +194,8 @@ module "StorageAccountDataExport" {
   subnet_id                = var.storage_DataExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataExport_blob_private_dns_zone_id
 
-tags = {}
-/*
+  tags = {}
+  /*
   tags = {
     "hidden-related:/providers/Microsoft.Web/sites/${var.windows_function_app_dataexport_name}" = "empty"
   }
@@ -216,8 +216,8 @@ module "StorageAccountProcessMessage" {
   subnet_id                = var.storage_ProcessMessage_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_ProcessMessage_blob_private_dns_zone_id
 
-tags = {}
-/*
+  tags = {}
+  /*
   tags = {
     "hidden-related:/providers/Microsoft.Web/sites/${var.process_message_function_app_name}" = "empty"
   }
@@ -238,7 +238,7 @@ module "StorageAccountDataLakeExport" {
   subnet_id                = var.storage_DataLakeExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataLakeExport_blob_private_dns_zone_id
 
-  tags                     = var.tags
+  tags = var.tags
 }
 
 module "ServiceBusNamespace" {
@@ -264,28 +264,28 @@ resource "azurerm_servicebus_queue" "fhireventqueue" {
 module "LogAnalytics" {
   source = "./../../Modules/LogAnalytics"
 
-  ampls_scope_name        = var.ampls_scope_name
-  sku                     = var.log_analytics_sku
-  retention_in_days       = var.log_analytics_retention_in_days
-  name                    = var.log_analytics_name
-  resource_group_name     = var.log_analytics_resource_group_name
-  resource_prefix         = var.resource_prefix
-  
-  tags                    = var.tags
+  ampls_scope_name    = var.ampls_scope_name
+  sku                 = var.log_analytics_sku
+  retention_in_days   = var.log_analytics_retention_in_days
+  name                = var.log_analytics_name
+  resource_group_name = var.log_analytics_resource_group_name
+  resource_prefix     = var.resource_prefix
+
+  tags = var.tags
 }
 
 
 module "ApplicationInsights" {
   source = "./../../Modules/ApplicationInsights"
 
-  ampls_scope_name        = var.ampls_scope_name
-  application_type        = var.application_insights_application_type
-  name                    = var.application_insights_name
-  resource_prefix         = var.resource_prefix
-  resource_group_name     = var.application_insights_resource_group_name
-  sampling_percentage     = var.application_insights_sampling_percentage
-  tags                    = var.tags
-  workspace_id            = module.LogAnalytics.id
+  ampls_scope_name    = var.ampls_scope_name
+  application_type    = var.application_insights_application_type
+  name                = var.application_insights_name
+  resource_prefix     = var.resource_prefix
+  resource_group_name = var.application_insights_resource_group_name
+  sampling_percentage = var.application_insights_sampling_percentage
+  tags                = var.tags
+  workspace_id        = module.LogAnalytics.id
 }
 
 module "EventGridSystemTopic" {
@@ -328,11 +328,11 @@ module "AADFunctionApp" {
   app_settings = {
     AZURE_APPINSIGHTS_INSTRUMENTATIONKEY        = module.ApplicationInsights.instrumentation_key
     AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING = module.ApplicationInsights.connection_string
-    AZURE_ApiManagementHostName                 = module.APIManagement.hostname
+    AZURE_ApiManagementHostName                 = var.apimanagement_hostname
     AZURE_Audience                              = var.azure_audience
     AZURE_BackendServiceKeyVaultStore           = module.KeyVault.name
     AZURE_CacheConnectionString                 = module.RedisCache.primary_connection_string
-    azure_app_client_id                    = var.azure_app_client_id
+    azure_app_client_id                         = var.azure_app_client_id
     AZURE_Debug                                 = "true"
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
     AZURE_TenantId                              = data.azurerm_client_config.current.tenant_id
@@ -368,7 +368,7 @@ module "ExportFunctionApp" {
   app_settings = {
     AZURE_APPINSIGHTS_INSTRUMENTATIONKEY        = module.ApplicationInsights.instrumentation_key
     AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING = module.ApplicationInsights.connection_string
-    AZURE_ApiManagementHostName                 = module.APIManagement.hostname
+    AZURE_ApiManagementHostName                 = var.apimanagement_hostname
     AZURE_Debug                                 = "true"
     AZURE_ExportStorageAccountUrl               = module.StorageAccountFHIRExport.primary_blob_endpoint
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
@@ -410,24 +410,6 @@ module "DataExportFunctionApp" {
   private_dns_zone_id = var.windows_function_app_dataexport_private_dns_zone_id
 }
 
-module "APIManagement" {
-  source = "../ApiManagement"
-
-  name                         = var.apimanagement_name
-  publisher_email              = var.apimanagement_publisher_email
-  publisher_name               = var.apimanagement_publisher_name
-  resource_prefix              = var.resource_prefix
-  resource_group_name          = var.apimanagement_resource_group_name
-  sku_name                     = var.apimanagement_sku_name
-  fhir_service_url             = module.AzureHealthCareFHIR.FhirServerUrl
-  static_site_hostname         = module.StaticSite.default_host_name
-  aad_function_hostname        = module.AADFunctionApp.default_hostname
-  azure_audience               = var.azure_audience
-  process_message_function_url = "${module.ProcessMessageFunctionApp.default_hosturl}/api/ProcessMessage?code=${module.ProcessMessageFunctionApp.default_function_key}&amp;clientId=default"
-
-  subnet_id            = null
-}
-
 module "AppConfiguration" {
   source = "./../../Modules/AppConfiguration"
 
@@ -445,7 +427,7 @@ module "AppConfiguration" {
     "AuthInstance"                          = "https://login.microsoftonline.com/{0}/oauth2/token"
     "AuthScope"                             = "${module.AzureHealthCareFHIR.FhirServerUrl}/.default"
     "AuthTenantId"                          = data.azurerm_client_config.current.tenant_id
-    "BaseFhirUrl"                           = "https://${module.APIManagement.hostname}"
+    "BaseFhirUrl"                           = "https://${var.apimanagement_hostname}"
     "Export:DatalakeBlobContainer"          = "fhirdatadestination" # todo now russell container needs to get created
     "Export:DatalakeStorageAccount"         = var.storage_DataLakeExport_name
     "Export:FlattenExport"                  = "False"
@@ -459,13 +441,13 @@ resource "azurerm_role_assignment" "appconf_dataowner" {
   role_definition_name = "App Configuration Data Owner"
   principal_id         = data.azurerm_client_config.current.object_id
 
-  depends_on = [ module.AppConfiguration ]
+  depends_on = [module.AppConfiguration]
 }
 
 data "azurerm_key_vault" "existing" {
   name                = module.KeyVault.name
   resource_group_name = module.KeyVault.resource_group_name
-  depends_on = [ module.KeyVault ]
+  depends_on          = [module.KeyVault]
 }
 
 data "azurerm_key_vault_secret" "ClientId" {

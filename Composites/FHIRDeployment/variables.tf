@@ -1,7 +1,7 @@
 variable "resource_prefix" {
   type        = string
   description = ""
-  default = null
+  default     = null
 }
 
 variable "aad_function_app_name" {
@@ -37,6 +37,12 @@ variable "apimanagement_resource_group_name" {
   type        = string
   description = ""
 }
+
+variable "apimanagement_hostname" {
+  type        = string
+  description = ""
+}
+
 variable "apimanagement_publisher_email" {
   type        = string
   description = ""
@@ -219,13 +225,13 @@ variable "keyvault_sku_name" {
 variable "keyvault_private_dns_zone_id" {
   type        = string
   description = ""
-  default = null
+  default     = null
 }
 
 variable "keyvault_private_endpoint_subnet_id" {
   type        = string
   description = ""
-  default = null
+  default     = null
 }
 
 variable "process_message_function_app_name" {
@@ -485,6 +491,6 @@ variable "windows_function_app_dataexport_private_dns_zone_id" {
 
 variable "tags" {
   type        = map(string)
-  description = "" 
-  default = {}
+  description = ""
+  default     = {}
 }

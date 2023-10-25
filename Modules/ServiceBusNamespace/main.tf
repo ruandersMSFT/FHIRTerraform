@@ -18,7 +18,7 @@ resource "azurerm_servicebus_namespace" "this" {
 }
 
 module "PrivateEndpoint" {
-  count = 1
+  count  = 1
   source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)
