@@ -194,7 +194,7 @@ module "StorageAccountDataExport" {
   subnet_id                = var.storage_DataExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataExport_blob_private_dns_zone_id
 
-  tags = {}
+  tags = var.tags
 }
 
 module "StorageAccountProcessMessage" {
@@ -211,7 +211,7 @@ module "StorageAccountProcessMessage" {
   subnet_id                = var.storage_ProcessMessage_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_ProcessMessage_blob_private_dns_zone_id
 
-  tags = {}
+  tags = var.tags
 }
 
 module "StorageAccountDataLakeExport" {
@@ -300,7 +300,7 @@ module "ProcessMessageFunctionApp" {
   application_insights_connection_string = module.ApplicationInsights.connection_string
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = { }
+  tags = var.tags
 
   subnet_id           = var.process_message_function_app_private_endpoint_subnet_id
   private_dns_zone_id = var.process_message_function_app_private_dns_zone_id
@@ -334,7 +334,7 @@ module "AADFunctionApp" {
   application_insights_key               = module.ApplicationInsights.instrumentation_key
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = { }
+  tags = var.tags
 
   subnet_id           = var.aad_function_app_private_endpoint_subnet_id
   private_dns_zone_id = var.aad_function_app_private_dns_zone_id
@@ -382,7 +382,7 @@ module "DataExportFunctionApp" {
   application_insights_connection_string = module.ApplicationInsights.connection_string
   FhirFunctionAppConfigConnectionString  = module.AppConfiguration.primary_read_key[0].connection_string
 
-  tags = { }
+  tags = var.tags
 
   subnet_id           = var.windows_function_app_dataexport_private_endpoint_subnet_id
   private_dns_zone_id = var.windows_function_app_dataexport_private_dns_zone_id
