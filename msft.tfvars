@@ -13,10 +13,10 @@ azure_app_client_id = "4d4b616c-a6f4-450b-8048-7482d7dbca49"
 azure_monitor_private_link_scope_name = "AMPLS"
 
 apimanagement_name            = "apim"
-apimanagement_publisher_email = "mislentz@microsoft.com"
-apimanagement_publisher_name  = "Michael Slentz"
+apimanagement_publisher_email = "user@contoso.com"
+apimanagement_publisher_name  = "First Last"
 apimanagement_sku_name        = "Premium_1"
-apimanagement_hostname        = "cdc-dex-smart-apim.azure-api.net"
+apimanagement_hostname        = "cdc-dex-smart-apim.azure-api.net"  # this is a variable because the APIM vs other resources are currently designed as seperate deployments (as APIM will be in DMZ, and other resources internal)
 
 
 app_configuration_name = "appconfig"
@@ -62,6 +62,4 @@ storage_DataLakeExport_name = "datalakeeast2"
 
 windows_function_app_dataexport_name = "dataexport"
 
-tags = {
-  "a" : "1"
-}
+tags = { }
