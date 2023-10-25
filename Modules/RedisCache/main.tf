@@ -40,7 +40,6 @@ resource "azurerm_redis_firewall_rule" "this" {
 */
 
 module "PrivateEndpoint" {
-  count  = 1
   source = "../PrivateEndpoint"
 
   name                = var.name

@@ -48,7 +48,6 @@ resource "azurerm_key_vault" "this" {
 }
 
 module "PrivateEndpoint" {
-  count  = 1
   source = "../PrivateEndpoint"
 
   location            = coalesce(var.location, data.azurerm_resource_group.this.location)

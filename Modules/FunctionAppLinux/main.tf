@@ -41,7 +41,6 @@ resource "azurerm_linux_function_app" "this" {
 }
 
 module "PrivateEndpoint" {
-  count  = 1
   source = "../PrivateEndpoint"
 
   name                = var.name
