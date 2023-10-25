@@ -97,7 +97,7 @@ module "FHIRDeployment" {
   apimanagement_publisher_email     = var.apimanagement_publisher_email
   apimanagement_publisher_name      = var.apimanagement_publisher_name
   apimanagement_sku_name            = var.apimanagement_sku_name
-  apimanagement_hostname            = "asdf"
+  apimanagement_hostname            = var.apimanagement_hostname
 
   app_configuration_name                       = var.app_configuration_name
   app_configuration_resource_group_name        = data.azurerm_resource_group.mgt.name

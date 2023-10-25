@@ -169,6 +169,11 @@ variable "apimanagement_sku_name" {
   description = ""
 }
 
+variable "apimanagement_hostname" {
+  type        = string
+  description = ""
+}
+
 variable "azure_audience" {
   type        = string
   description = ""

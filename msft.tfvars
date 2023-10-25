@@ -16,6 +16,8 @@ apimanagement_name            = "apim"
 apimanagement_publisher_email = "mislentz@microsoft.com"
 apimanagement_publisher_name  = "Michael Slentz"
 apimanagement_sku_name        = "Premium_1"
+apimanagement_hostname        = "cdc-dex-smart-apim.azure-api.net"
+
 
 app_configuration_name = "appconfig"
 app_configuration_sku  = "standard"
