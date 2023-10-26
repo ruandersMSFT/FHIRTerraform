@@ -2,10 +2,6 @@ locals {
   deploy_ampls = (var.ampls_scope_name != null)
 }
 
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 resource "azurerm_application_insights" "this" {
   application_type    = var.application_type
   location            = var.location
