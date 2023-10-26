@@ -49,7 +49,6 @@ locals {
   redis_cache_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].rediscache_private_dns_zone_id : null
   redis_cache_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
 
-  #todo should API be removed from this name, separating API vs Healthcare
   healthcareApis_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].healthcareApis_private_dns_zone_id : null
   healthcareApis_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
 
@@ -74,8 +73,6 @@ locals {
   windows_function_app_dataexport_private_endpoint_subnet_id = var.deploy_private_endpoints ? module.Network.subnet_id : null
   windows_function_app_dataexport_private_dns_zone_id        = var.deploy_private_endpoints ? module.PrivateDnsZones[0].website_private_dns_zone_id : null
 }
-
-#todo move resource_group_name to input variables separated by type
 
 module "FHIRDeployment" {
   source = "./Composites/FHIRDeployment"

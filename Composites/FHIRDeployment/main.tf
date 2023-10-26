@@ -149,7 +149,6 @@ module "AzureHealthCareWorkspace" {
   tags = var.tags
 }
 
-#todo variable should reference blob
 module "StorageAccountFHIRExport" {
   source = "./../../Modules/StorageAccount"
 
