@@ -319,6 +319,11 @@ variable "storage_FHIRExport_resource_group_name" {
   description = ""
 }
 
+variable "storage_FHIRExport_location" {
+  type        = string
+  description = ""
+}
+
 variable "storage_FHIRExport_private_endpoint_subnet_id" {
   type        = string
   description = ""
@@ -344,6 +349,11 @@ variable "storage_DataLakeExport_resource_group_name" {
   description = ""
 }
 
+variable "storage_DataLakeExport_location" {
+  type        = string
+  description = ""
+}
+
 variable "storage_DataLakeExport_private_endpoint_subnet_id" {
   type        = string
   description = ""
@@ -364,6 +374,11 @@ variable "storage_ProcessMessage_resource_group_name" {
   description = ""
 }
 
+variable "storage_ProcessMessage_location" {
+  type        = string
+  description = ""
+}
+
 variable "storage_ProcessMessage_private_endpoint_subnet_id" {
   type        = string
   description = ""
@@ -380,6 +395,11 @@ variable "storage_DataExport_name" {
 }
 
 variable "storage_DataExport_resource_group_name" {
+  type        = string
+  description = ""
+}
+
+variable "storage_DataExport_location" {
   type        = string
   description = ""
 }

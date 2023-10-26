@@ -1,7 +1,6 @@
 variable "location" {
   type        = string
-  description = "Storage Account resource location if different than the resource group's location."
-  default     = null
+  description = "Storage Account resource location"
 }
 
 variable "resource_group_name" {

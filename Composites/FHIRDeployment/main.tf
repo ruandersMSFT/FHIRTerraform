@@ -158,6 +158,7 @@ module "StorageAccountFHIRExport" {
   resource_prefix          = var.resource_prefix
   name                     = var.healthcare_fhir_configuration_export_storage_account_name
   resource_group_name      = var.storage_FHIRExport_resource_group_name
+  location = var.storage_FHIRExport_location
   subnet_id                = var.storage_FHIRExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_FHIRExport_blob_private_dns_zone_id
 
@@ -191,6 +192,7 @@ module "StorageAccountDataExport" {
   resource_prefix          = var.resource_prefix
   name                     = var.storage_DataExport_name
   resource_group_name      = var.storage_DataExport_resource_group_name
+  location      = var.storage_DataExport_location
   subnet_id                = var.storage_DataExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataExport_blob_private_dns_zone_id
 
@@ -208,6 +210,7 @@ module "StorageAccountProcessMessage" {
   resource_prefix          = var.resource_prefix
   name                     = var.storage_ProcessMessage_name
   resource_group_name      = var.storage_ProcessMessage_resource_group_name
+  location      = var.storage_ProcessMessage_location
   subnet_id                = var.storage_ProcessMessage_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_ProcessMessage_blob_private_dns_zone_id
 
@@ -225,6 +228,7 @@ module "StorageAccountDataLakeExport" {
   resource_prefix          = var.resource_prefix
   name                     = var.storage_DataLakeExport_name
   resource_group_name      = var.storage_DataLakeExport_resource_group_name
+  location      = var.storage_DataLakeExport_location
   subnet_id                = var.storage_DataLakeExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataLakeExport_blob_private_dns_zone_id
 

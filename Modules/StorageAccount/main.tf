@@ -1,12 +1,6 @@
 locals {
   storage_resource_prefix_lower = lower(var.resource_prefix)
   storage_resource_prefix       = replace(local.storage_resource_prefix_lower, "-", "")
-
-  deploy_private_endpoint = (var.subnet_id != null && var.private_dns_zone_id != null)
-}
-
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
 }
 
 locals {
@@ -27,7 +21,7 @@ locals {
 resource "azurerm_storage_account" "this" {
   name                      = "${local.storage_resource_prefix}${var.name}"
   resource_group_name       = var.resource_group_name
-  location                  = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location                  = var.location
   account_tier              = var.account_tier
   account_replication_type  = var.account_replication_type
   account_kind              = var.account_kind
@@ -76,7 +70,7 @@ resource "azurerm_storage_container" "this" {
 module "PrivateEndpoint" {
   source = "../PrivateEndpoint"
 
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   name                = var.name
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name

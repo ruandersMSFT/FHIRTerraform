@@ -1,8 +1,6 @@
 locals {
   healthcare_workspace_resource_prefix_lower = lower(var.resource_prefix)
   healthcare_workspace_resource_prefix       = replace(local.healthcare_workspace_resource_prefix_lower, "-", "")
-
-  deploy_private_endpoint = (var.subnet_id != null && var.private_dns_zone_id != null)
 }
 
 data "azurerm_resource_group" "this" {

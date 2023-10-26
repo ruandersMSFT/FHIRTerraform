@@ -184,21 +184,25 @@ module "FHIRDeployment" {
   storage_FHIRExport_blob_private_dns_zone_id   = local.storageblob_private_dns_zone_id
   storage_FHIRExport_private_endpoint_subnet_id = local.storage_FHIRExport_private_endpoint_subnet_id
   storage_FHIRExport_resource_group_name        = data.azurerm_resource_group.mgt.name
+  storage_FHIRExport_location = data.azurerm_resource_group.mgt.location
 
   storage_DataExport_blob_private_dns_zone_id   = local.storageblob_private_dns_zone_id
   storage_DataExport_name                       = var.storage_DataExport_name
   storage_DataExport_private_endpoint_subnet_id = local.storage_DataExport_private_endpoint_subnet_id
   storage_DataExport_resource_group_name        = data.azurerm_resource_group.mgt.name
+  storage_DataExport_location        = data.azurerm_resource_group.mgt.location
 
   storage_DataLakeExport_blob_private_dns_zone_id   = local.storageblob_private_dns_zone_id
   storage_DataLakeExport_name                       = var.storage_DataLakeExport_name
   storage_DataLakeExport_private_endpoint_subnet_id = local.storage_DataLakeExport_private_endpoint_subnet_id
   storage_DataLakeExport_resource_group_name        = data.azurerm_resource_group.mgt.name
+  storage_DataLakeExport_location        = data.azurerm_resource_group.mgt.location
 
   storage_ProcessMessage_blob_private_dns_zone_id   = local.storageblob_private_dns_zone_id
   storage_ProcessMessage_name                       = var.storage_ProcessMessage_name
   storage_ProcessMessage_private_endpoint_subnet_id = local.storage_ProcessMessage_private_endpoint_subnet_id
   storage_ProcessMessage_resource_group_name        = data.azurerm_resource_group.mgt.name
+  storage_ProcessMessage_location        = data.azurerm_resource_group.mgt.location
 
   windows_function_app_dataexport_name                       = var.windows_function_app_dataexport_name
   windows_function_app_dataexport_resource_group_name        = data.azurerm_resource_group.mgt.name

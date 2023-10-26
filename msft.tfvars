@@ -16,7 +16,7 @@ apimanagement_name            = "apim"
 apimanagement_publisher_email = "user@contoso.com"
 apimanagement_publisher_name  = "First Last"
 apimanagement_sku_name        = "Premium_1"
-apimanagement_hostname        = "cdc-dex-smart-apim.azure-api.net"  # this is a variable because the APIM vs other resources are currently designed as seperate deployments (as APIM will be in DMZ, and other resources internal)
+apimanagement_hostname        = "cdc-dex-smart-apim.azure-api.net" # this is a variable because the APIM vs other resources are currently designed as seperate deployments (as APIM will be in DMZ, and other resources internal)
 
 
 app_configuration_name = "appconfig"
@@ -62,4 +62,4 @@ storage_DataLakeExport_name = "datalakeeast2"
 
 windows_function_app_dataexport_name = "dataexport"
 
-tags = { }
+tags = {}

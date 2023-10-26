@@ -3,8 +3,6 @@ data "azurerm_resource_group" "this" {
 }
 
 locals {
-  deploy_private_endpoint = (var.subnet_id != null && var.private_dns_zone_id != null)
-
   default_network_acls = {
     bypass                     = "AzureServices"
     default_action             = "Allow"

@@ -1,5 +1,4 @@
 locals {
-  deploy_private_endpoint = (var.subnet_id != null && var.private_dns_zone_id != null)
 }
 
 data "azurerm_resource_group" "this" {
