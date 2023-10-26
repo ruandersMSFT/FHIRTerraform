@@ -1,16 +1,12 @@
 locals {
 }
 
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 resource "azurerm_linux_function_app" "this" {
   app_settings                  = var.app_settings
   builtin_logging_enabled       = false
   client_certificate_mode       = "Required"
   https_only                    = true
-  location                      = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location                      = var.location
   name                          = "${var.resource_prefix}${var.name}"
   public_network_access_enabled = false
   resource_group_name           = var.resource_group_name
@@ -45,6 +41,7 @@ module "PrivateEndpoint" {
   name                = var.name
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name
+  location            = var.location
   resource_id         = azurerm_linux_function_app.this.id
   subnet_id           = var.subnet_id
   subresource_names   = ["sites"]

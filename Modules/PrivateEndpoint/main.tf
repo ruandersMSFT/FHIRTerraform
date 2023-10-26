@@ -1,13 +1,9 @@
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 locals {
 }
 
 resource "azurerm_private_endpoint" "this" {
   name                = "${var.name}-endpoint"
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_id
 

@@ -5,13 +5,13 @@ locals {
 module "KeyVault" {
   source = "./../../Modules/KeyVault"
 
-  tenant_id    = var.tenant_id
+  tenant_id = var.tenant_id
 
   resource_prefix     = var.resource_prefix
   name                = var.keyvault_name
   sku_name            = var.keyvault_sku_name
   resource_group_name = var.keyvault_resource_group_name
-
+  location            = var.keyvault_location
   subnet_id           = var.keyvault_private_endpoint_subnet_id
   private_dns_zone_id = var.keyvault_private_dns_zone_id
 
@@ -78,7 +78,7 @@ module "StaticSite" {
   resource_prefix     = var.resource_prefix
   name                = var.static_site_name
   resource_group_name = var.static_site_resource_group_name
-
+  location            = var.static_site_location
   subnet_id           = var.static_site_private_endpoint_subnet_id
   private_dns_zone_id = var.static_site_private_dns_zone_id
 
@@ -92,6 +92,7 @@ module "RedisCache" {
   capacity            = var.redis_cache_capacity
   name                = var.redis_cache_name
   resource_group_name = var.redis_cache_resource_group_name
+  location            = var.redis_cache_location
   sku                 = var.redis_cache_sku
   subnet_id           = var.redis_cache_private_endpoint_subnet_id
   private_dns_zone_id = var.redis_cache_private_dns_zone_id
@@ -107,6 +108,7 @@ module "ServicePlanAppServ" {
   name                = var.service_plan_appserv_name
   os_type             = var.service_plan_appserv_os_type
   resource_group_name = var.service_plan_appserv_resource_group_name
+  location            = var.service_plan_appserv_location
   sku_name            = var.service_plan_appserv_sku_name
   tags                = var.tags
 }
@@ -118,6 +120,7 @@ module "ServicePlanDataExport" {
   name                = var.service_plan_dataexport_name
   os_type             = var.service_plan_dataexport_os_type
   resource_group_name = var.service_plan_dataexport_resource_group_name
+  location            = var.service_plan_dataexport_location
   sku_name            = var.service_plan_dataexport_sku_name
   tags                = var.tags
 }
@@ -129,6 +132,7 @@ module "ServicePlanProcessMessage" {
   name                = var.service_plan_processmessage_name
   os_type             = var.service_plan_processmessage_os_type
   resource_group_name = var.service_plan_processmessage_resource_group_name
+  location            = var.service_plan_processmessage_location
   sku_name            = var.service_plan_processmessage_sku_name
   tags                = var.tags
 }
@@ -139,7 +143,7 @@ module "AzureHealthCareWorkspace" {
   resource_prefix     = var.resource_prefix
   name                = var.healthcare_workspace_name
   resource_group_name = var.healthcare_workspace_resource_group_name
-
+  location            = var.health_workspace_location
   subnet_id           = var.healthcare_workspace_private_endpoint_subnet_id
   private_dns_zone_id = var.healthcare_workspace_private_dns_zone_id
 
@@ -158,7 +162,7 @@ module "StorageAccountFHIRExport" {
   resource_prefix          = var.resource_prefix
   name                     = var.healthcare_fhir_configuration_export_storage_account_name
   resource_group_name      = var.storage_FHIRExport_resource_group_name
-  location = var.storage_FHIRExport_location
+  location                 = var.storage_FHIRExport_location
   subnet_id                = var.storage_FHIRExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_FHIRExport_blob_private_dns_zone_id
 
@@ -174,6 +178,7 @@ module "AzureHealthCareFHIR" {
   name                                      = var.healthcare_fhir_name
   resource_prefix                           = var.resource_prefix
   resource_group_name                       = var.healthcare_fhir_resource_group_name
+  location                                  = var.healthcare_fhir_location
   azurerm_healthcare_workspace_id           = module.AzureHealthCareWorkspace.id
   workspace_name                            = module.AzureHealthCareWorkspace.name
   tags                                      = var.tags
@@ -192,7 +197,7 @@ module "StorageAccountDataExport" {
   resource_prefix          = var.resource_prefix
   name                     = var.storage_DataExport_name
   resource_group_name      = var.storage_DataExport_resource_group_name
-  location      = var.storage_DataExport_location
+  location                 = var.storage_DataExport_location
   subnet_id                = var.storage_DataExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataExport_blob_private_dns_zone_id
 
@@ -210,7 +215,7 @@ module "StorageAccountProcessMessage" {
   resource_prefix          = var.resource_prefix
   name                     = var.storage_ProcessMessage_name
   resource_group_name      = var.storage_ProcessMessage_resource_group_name
-  location      = var.storage_ProcessMessage_location
+  location                 = var.storage_ProcessMessage_location
   subnet_id                = var.storage_ProcessMessage_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_ProcessMessage_blob_private_dns_zone_id
 
@@ -228,7 +233,7 @@ module "StorageAccountDataLakeExport" {
   resource_prefix          = var.resource_prefix
   name                     = var.storage_DataLakeExport_name
   resource_group_name      = var.storage_DataLakeExport_resource_group_name
-  location      = var.storage_DataLakeExport_location
+  location                 = var.storage_DataLakeExport_location
   subnet_id                = var.storage_DataLakeExport_private_endpoint_subnet_id
   private_dns_zone_id      = var.storage_DataLakeExport_blob_private_dns_zone_id
 
@@ -241,6 +246,7 @@ module "ServiceBusNamespace" {
   resource_prefix     = var.resource_prefix
   name                = var.servicebusnamespace_name
   resource_group_name = var.servicebusnamespace_resource_group_name
+  location            = var.servicebusnamespace_location
   sku                 = var.servicebusnamespace_sku
   capacity            = var.servicebusnamespace_capacity
 
@@ -263,6 +269,7 @@ module "LogAnalytics" {
   retention_in_days   = var.log_analytics_retention_in_days
   name                = var.log_analytics_name
   resource_group_name = var.log_analytics_resource_group_name
+  location            = var.log_analytics_location
   resource_prefix     = var.resource_prefix
 
   tags = var.tags
@@ -277,6 +284,7 @@ module "ApplicationInsights" {
   name                = var.application_insights_name
   resource_prefix     = var.resource_prefix
   resource_group_name = var.application_insights_resource_group_name
+  location            = var.application_insights_location
   sampling_percentage = var.application_insights_sampling_percentage
   tags                = var.tags
   workspace_id        = module.LogAnalytics.id
@@ -288,6 +296,7 @@ module "EventGridSystemTopic" {
   name                   = var.event_grid_system_topic_name
   resource_prefix        = var.resource_prefix
   resource_group_name    = var.event_grid_system_topic_resource_group_name
+  location               = var.event_grid_system_topic_location
   source_arm_resource_id = module.AzureHealthCareWorkspace.id
   topic_type             = "Microsoft.HealthcareApis.Workspaces"
 }
@@ -298,6 +307,7 @@ module "ProcessMessageFunctionApp" {
   name                                   = var.process_message_function_app_name
   resource_prefix                        = var.resource_prefix
   resource_group_name                    = var.process_message_function_app_resource_group_name
+  location                               = var.process_message_fuction_app_location
   service_plan_id                        = module.ServicePlanProcessMessage.id
   storage_account_access_key             = module.StorageAccountProcessMessage.primary_access_key
   storage_account_name                   = module.StorageAccountProcessMessage.name
@@ -316,6 +326,7 @@ module "AADFunctionApp" {
   name                = var.aad_function_app_name
   resource_prefix     = var.resource_prefix
   resource_group_name = var.aad_function_app_resource_group_name
+  location            = var.aad_function_app_location
   app_settings = {
     AZURE_APPINSIGHTS_INSTRUMENTATIONKEY        = module.ApplicationInsights.instrumentation_key
     AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING = module.ApplicationInsights.connection_string
@@ -324,7 +335,7 @@ module "AADFunctionApp" {
     AZURE_BackendServiceKeyVaultStore           = module.KeyVault.name
     AZURE_CacheConnectionString                 = module.RedisCache.primary_connection_string
     azure_app_client_id                         = var.azure_app_client_id
-    AZURE_Debug                                 = "true"
+    AZURE_Debug                                 = "false"
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
     AZURE_TenantId                              = var.tenant_id
     ENABLE_ORYX_BUILD                           = "true"
@@ -350,11 +361,12 @@ module "ExportFunctionApp" {
   name                = var.linux_function_app_export_name
   resource_prefix     = var.resource_prefix
   resource_group_name = var.linux_function_app_export_resource_group_name
+  location            = var.linux_function_app_export_location
   app_settings = {
     AZURE_APPINSIGHTS_INSTRUMENTATIONKEY        = module.ApplicationInsights.instrumentation_key
     AZURE_APPLICATIONINSIGHTS_CONNECTION_STRING = module.ApplicationInsights.connection_string
     AZURE_ApiManagementHostName                 = var.apimanagement_hostname
-    AZURE_Debug                                 = "true"
+    AZURE_Debug                                 = "false"
     AZURE_ExportStorageAccountUrl               = module.StorageAccountFHIRExport.primary_blob_endpoint
     AZURE_FhirServerUrl                         = module.AzureHealthCareFHIR.FhirServerUrl
     AZURE_TenantId                              = var.tenant_id
@@ -380,6 +392,7 @@ module "DataExportFunctionApp" {
   name                                   = var.windows_function_app_dataexport_name
   resource_prefix                        = var.resource_prefix
   resource_group_name                    = var.windows_function_app_dataexport_resource_group_name
+  location                               = var.windows_function_app_dataexport_location
   service_plan_id                        = module.ServicePlanDataExport.id
   storage_account_access_key             = module.StorageAccountDataExport.primary_access_key
   storage_account_name                   = module.StorageAccountDataExport.name
@@ -398,7 +411,7 @@ module "AppConfiguration" {
   resource_prefix     = var.resource_prefix
   name                = var.app_configuration_name
   resource_group_name = var.app_configuration_resource_group_name
-
+  location            = var.app_configuration_location
   subnet_id           = var.app_configuration_private_endpoint_subnet_id
   private_dns_zone_id = var.app_configuration_private_dns_zone_id
 

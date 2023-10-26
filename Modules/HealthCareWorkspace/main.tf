@@ -3,12 +3,8 @@ locals {
   healthcare_workspace_resource_prefix       = replace(local.healthcare_workspace_resource_prefix_lower, "-", "")
 }
 
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 resource "azurerm_healthcare_workspace" "HealthCareWorkspace" {
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   name                = "${local.healthcare_workspace_resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
   tags                = var.tags
@@ -17,7 +13,7 @@ resource "azurerm_healthcare_workspace" "HealthCareWorkspace" {
 module "PrivateEndpoint" {
   source = "../PrivateEndpoint"
 
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   name                = var.name
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name

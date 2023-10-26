@@ -1,13 +1,9 @@
 locals {
 }
 
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 resource "azurerm_virtual_network" "this" {
   name                = "${var.resource_prefix}${var.name}"
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   resource_group_name = var.resource_group_name
   address_space       = ["10.20.30.0/24"]
 

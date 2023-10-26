@@ -1,12 +1,8 @@
 locals {
 }
 
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 resource "azurerm_api_management" "this" {
-  location             = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location             = var.location
   name                 = "${var.resource_prefix}${var.name}"
   publisher_email      = var.publisher_email
   publisher_name       = var.publisher_name

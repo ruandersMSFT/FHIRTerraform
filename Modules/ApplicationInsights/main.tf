@@ -8,7 +8,7 @@ data "azurerm_resource_group" "this" {
 
 resource "azurerm_application_insights" "this" {
   application_type    = var.application_type
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
   sampling_percentage = var.sampling_percentage

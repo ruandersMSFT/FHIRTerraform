@@ -1,7 +1,3 @@
-data "azurerm_resource_group" "this" {
-  name = var.resource_group_name
-}
-
 locals {
   default_network_acls = {
     bypass                     = "AzureServices"
@@ -22,7 +18,7 @@ locals {
 resource "azurerm_key_vault" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   tenant_id           = var.tenant_id
 
   enabled_for_deployment          = var.enabled_for_deployment
@@ -48,7 +44,7 @@ resource "azurerm_key_vault" "this" {
 module "PrivateEndpoint" {
   source = "../PrivateEndpoint"
 
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
   name                = var.name
   private_dns_zone_id = var.private_dns_zone_id
   resource_group_name = var.resource_group_name

@@ -9,7 +9,7 @@ locals {
 resource "azurerm_log_analytics_workspace" "this" {
   name                = "${var.resource_prefix}${var.name}"
   resource_group_name = var.resource_group_name
-  location            = coalesce(var.location, data.azurerm_resource_group.this.location)
+  location            = var.location
 
   sku               = var.sku
   retention_in_days = var.retention_in_days
