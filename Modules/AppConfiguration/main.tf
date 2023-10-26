@@ -14,8 +14,6 @@ resource "azurerm_app_configuration" "this" {
   tags = var.tags
 }
 
-# todo Russell There needs to be a system assigned identity permission added here to the Keyvault to read secrets
-
 resource "azurerm_app_configuration_key" "keys" {
   for_each = var.keys
 

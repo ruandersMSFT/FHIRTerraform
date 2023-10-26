@@ -8,7 +8,7 @@ resource "azurerm_api_management" "this" {
   publisher_name       = var.publisher_name
   resource_group_name  = var.resource_group_name
   sku_name             = var.sku_name
-  virtual_network_type = var.subnet_id == null ? "None" : "Internal" #todo Russell - should None be External?
+  virtual_network_type = var.subnet_id == null ? "None" : "Internal"
 
   dynamic "virtual_network_configuration" {
     for_each = var.subnet_id == null ? [] : ["fake"]

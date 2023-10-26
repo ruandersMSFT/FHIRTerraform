@@ -1,7 +1,6 @@
 locals {
 }
 
-#todo now russell -- Key Values from existing vault
 module "KeyVault" {
   source = "./../../Modules/KeyVault"
 
@@ -417,13 +416,12 @@ module "AppConfiguration" {
 
   sku = var.app_configuration_sku
 
-  #todo now russell parameters
   keys = {
     "AuthInstance"                          = "https://login.microsoftonline.com/{0}/oauth2/token"
     "AuthScope"                             = "${module.AzureHealthCareFHIR.FhirServerUrl}/.default"
     "AuthTenantId"                          = var.tenant_id
     "BaseFhirUrl"                           = "https://${var.apimanagement_hostname}"
-    "Export:DatalakeBlobContainer"          = "fhirdatadestination" # todo now russell container needs to get created
+    "Export:DatalakeBlobContainer"          = "fhirdatadestination"
     "Export:DatalakeStorageAccount"         = var.storage_DataLakeExport_name
     "Export:FlattenExport"                  = "False"
     "Export:UnbundleExport"                 = "False"

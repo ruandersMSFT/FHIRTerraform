@@ -41,7 +41,7 @@ healthcare_workspace_name = "devhealth2"
 healthcare_fhir_authentication_audience                   = "https://cdc-dex-smart-dev.microsoft.onmicrosoft.com"
 healthcare_fhir_authentication_authority                  = "https://login.microsoftonline.com"
 healthcare_fhir_name                                      = "fhirdata"
-healthcare_fhir_configuration_export_storage_account_name = "funcsa2" # todo now russell, needs to be in the deployment
+healthcare_fhir_configuration_export_storage_account_name = "funcsa2"
 
 network_name = "network"
 
